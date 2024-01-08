@@ -1,0 +1,9 @@
+.info-box{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    align-items: center;
+    justify-content: center;
+    width: 20vw;
+    height: 19vh;
+}

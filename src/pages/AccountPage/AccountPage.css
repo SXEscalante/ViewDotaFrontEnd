@@ -1,0 +1,19 @@
+.account-info{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgray;
+    width: 60.15vw;
+    height: 60vh;
+}
+.account-info-body{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.account-info-header{
+    display: flex;
+    justify-content: space-evenly;
+}
+.header-box{
+    border: 1px solid lightgray;
+}
