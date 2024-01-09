@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     border: 1px solid lightgray;
-    width: 60.15vw;
+    width: 60vw;
     height: 60vh;
 }
 .account-info-body{
