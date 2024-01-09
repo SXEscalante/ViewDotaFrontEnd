@@ -1,11 +1,15 @@
 import React from "react";
 import { useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import AuthContext from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
+
 import "./NavBar.css";
+import AuthContext from "../../context/AuthContext";
+import NavBarDropdown from "../NavBarDropdown/NavBarDropdown";
 
 const Navbar = () => {
   const { logoutUser, user } = useContext(AuthContext);
+  const [username] = useAuth();
   const navigate = useNavigate();
   return (
     <div className="navBar">
@@ -17,7 +21,7 @@ const Navbar = () => {
         </li>
         <li>
           {user ? (
-            <button onClick={logoutUser}>Logout</button>
+            <NavBarDropdown username={username} logoutUser={logoutUser} />
           ) : (
             <button onClick={() => navigate("/login")}>Login</button>
           )}
