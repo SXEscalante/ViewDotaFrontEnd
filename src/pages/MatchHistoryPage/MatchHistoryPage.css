@@ -1,0 +1,17 @@
+.match-history{
+    display: flex;
+    justify-content: center;
+}
+table{
+    border: 1px solid #9c5355;
+    width: 80vw;
+}
+.front{
+    display: flex;
+    justify-content: space-between;
+    width: 60vw;
+    padding-left: 20px;
+}
+.friends{
+    padding-right: 20px;
+}

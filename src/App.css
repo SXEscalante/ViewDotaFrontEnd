@@ -15,6 +15,7 @@ html {
 
 p {
   font-size: 20px;
+  color: #89191c;
 }
 
 button {
@@ -55,4 +56,10 @@ button:hover {
   margin: 5px;
   padding: 3px 7px;
   font-size: 17px;
+}
+
+.viewdota{
+  background-color: #ea8e90;
+  min-height: 100vh;
+  height: 100%;
 }

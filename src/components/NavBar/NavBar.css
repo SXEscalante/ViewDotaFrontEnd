@@ -12,19 +12,18 @@ li {
   background: #ca2529;
   box-shadow: 4px 2px 5px gray;
   color: white;
-  margin-bottom: 2rem;
-  padding: 1.5rem 2rem;
+  padding: 0.5rem 1rem;
 }
 
 .navBar button {
   background: transparent;
-  border: 2px solid #f3c0c1;
-  color: #f3c0c1;
+  border: 2px solid #f6d0d1;
+  color: #f6d0d1;
   padding: 0.4rem 0.5rem;
 }
 
 .navBar button:hover {
-  background: #f3c0c1;
+  background: #f6d0d1;
   color: #ca2529;
   cursor: pointer;
 }

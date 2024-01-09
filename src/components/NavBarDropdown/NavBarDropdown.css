@@ -5,7 +5,7 @@
     max-width: 20vw;
 }
 .dropdown-content{
-    background-color: #f3c0c1;
+    background-color: #f6d0d1;
     display: none;
     flex-direction: column;
     position: absolute;
@@ -22,10 +22,11 @@
 }
 .dropdown-option{
     text-decoration: none;
-    color: white;
+    color: #ea9092;
     padding: 3px;
 }
 .dropdown-option:hover{
     background-color: #ea8e90;
+    color: #f6d0d1;
     cursor: pointer;
 }

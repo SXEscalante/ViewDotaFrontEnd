@@ -19,7 +19,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
   return (
-    <div>
+    <div className="viewdota">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
