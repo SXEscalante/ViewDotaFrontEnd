@@ -10,6 +10,7 @@ const RegisterPage = () => {
     password: "",
     firstName: "",
     lastName: "",
+    steamAccountId: "",
   };
   const [formData, handleInputChange, handleSubmit] = useCustomForm(
     registerUser,
@@ -61,6 +62,15 @@ const RegisterPage = () => {
             type="password"
             name="password"
             value={formData.password}
+            onChange={handleInputChange}
+          />
+        </label>
+        <label>
+          Steam Account Id:{" "}
+          <input
+            type="text"
+            name="steamAccountId"
+            value={formData.steamAccountId}
             onChange={handleInputChange}
           />
         </label>

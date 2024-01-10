@@ -15,6 +15,7 @@ function setUserObject(user) {
     userName: user.userName,
     id: user.id,
     email: user.email,
+    steamAccountId: user.steamAccountId,
   };
 }
 
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         email: registerData.email,
         firstName: registerData.firstName,
         lastName: registerData.lastName,
+        steamAccountId: registerData.steamAccountId
       };
       let response = await axios.post(`${BASE_URL}`, finalData);
       if (response.status === 201) {

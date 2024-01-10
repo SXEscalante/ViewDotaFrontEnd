@@ -22,6 +22,7 @@ const MatchHistoryPage = ({}) => {
                 </thead>
                 <tbody></tbody>
             </table>
+            <a href="/match/10">Details</a>
         </div>
     );
 }
