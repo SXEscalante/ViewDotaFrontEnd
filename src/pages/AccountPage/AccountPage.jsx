@@ -10,7 +10,7 @@ const AccountPage = ({}) => {
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
     const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
-    
+    const [selectedTimeFrame, setSelectedTimeFrame] = useState(-1);
 
     const [damage, setDamage] = useState(0);
     const [kills, setKills] = useState(0);
@@ -97,6 +97,10 @@ const AccountPage = ({}) => {
         }
     }, [filteredAccountInfo]);
 
+    useEffect(() => {
+        console.log(selectedTimeFrame)
+    }, [selectedTimeFrame]);
+
     return ( 
         <div className="account-page">
             <div>
@@ -106,9 +110,18 @@ const AccountPage = ({}) => {
                         <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
                         <div className="header-box time-selector">
                             <h3>Time Period:</h3>
-                            <button onClick={() => setTimePeriod(Math.round(Date.now()/1000) - 86400)}>1 Day</button>
-                            <button onClick={() => setTimePeriod(Math.round(Date.now()/1000) - 604800)}>1 Week</button>
-                            <button onClick={() => setTimePeriod(Math.round(Date.now()/1000) - 2592000)}>1 Month</button>
+                            <button className={selectedTimeFrame === 1 ? "pressed" : ""} onClick={() => {
+                                setTimePeriod(Math.round(Date.now()/1000) - 86400);
+                                setSelectedTimeFrame(1)
+                            }}>1 Day</button>
+                            <button className={selectedTimeFrame === 2 ? "pressed" : ""} onClick={() => {
+                                setTimePeriod(Math.round(Date.now()/1000) - 604800);
+                                setSelectedTimeFrame(2)
+                            }}>1 Week</button>
+                            <button className={selectedTimeFrame === 3 ? "pressed" : ""} onClick={() => {
+                                setTimePeriod(Math.round(Date.now()/1000) - 2592000)
+                                setSelectedTimeFrame(3)
+                            }}>1 Month</button>
                         </div>
                     </div>
                     <div className="account-info-body">
