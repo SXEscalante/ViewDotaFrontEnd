@@ -8,33 +8,74 @@ import axios from "axios";
 
 const AccountPage = ({}) => {
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
-    const [AccountInfo, setAccountInfo] = useState({});
+    const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
+    
+
+    const [damage, setDamage] = useState(0);
+    const [kills, setKills] = useState(0);
+    const [towerDamage, setTowerDamage] = useState(0);
+    const [denies, setDenies] = useState(0);
+    const [deaths, setDeaths] = useState(0);
+    const [healing, setHealing] = useState(0);
+    const [lastHits, setLastHits] = useState(0);
+    const [assists, setAssists] = useState(0);
+    const [netWorth, setNetWorth] = useState(0);
     
     const [user] = useAuth();
 
     const handleAccountInfo = async () => {
         try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/${user.steamAccountId}`)
+            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
             if(responce.status === 200){
                 setAccountInfo(responce.data)
-                console.log(responce.data)
             }
         } catch (error) {
             console.log("Error getting account info", error)
         }
     }
 
-    const handleMatchInfo = async () => {
-        
+    const handleMatchInfo = async (matchId) => {
+        try {
+            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
+            if(responce.status === 200){
+                console.log(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId))
+                updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId))
+            }
+        } catch (error) {
+            console.log("Error getting account info", error)
+        }
+    }
+
+    const updateAccountInfo = (matchInfo) => {
+        setDamage(prevDamage => prevDamage + matchInfo[0].hero_damage)
+        setKills(prevKills => prevKills + matchInfo[0].kills)
+        setTowerDamage(prevTowerDamage => prevTowerDamage + matchInfo[0].tower_damage)
+        setDenies(prevDenies => prevDenies + matchInfo[0].denies)
+        setDeaths(prevDeaths => prevDeaths + matchInfo[0].deaths)
+        setHealing(prevHealing => prevHealing + matchInfo[0].hero_healing)
+        setLastHits(prevLastHits => prevLastHits + matchInfo[0].last_hits)
+        setAssists(prevAssists => prevAssists + matchInfo[0].assists)
+        setNetWorth(prevNetWorth => prevNetWorth + matchInfo[0].net_worth)
     }
 
     const filterAccountInfo = (matches) => {
         if(matches != null){
             const result = matches.filter((match) => match.start_time >= timePeriod)
-            console.log(result)
             setFilteredAccountInfo(result)
         }
+    }
+
+    const resetAccountInfo = () => {
+        setDamage(0)
+        setKills(0)
+        setTowerDamage(0)
+        setDenies(0)
+        setDeaths(0)
+        setHealing(0)
+        setLastHits(0)
+        setAssists(0)
+        setNetWorth(0)
     }
     
     useEffect(() => {
@@ -42,10 +83,19 @@ const AccountPage = ({}) => {
     }, []);
 
     useEffect(() => {
-        if(AccountInfo != null && AccountInfo.result != null && AccountInfo.result.matches != null){
-            filterAccountInfo(AccountInfo.result.matches)
+        if(accountInfo != null && accountInfo.result != null && accountInfo.result.matches != null){
+            filterAccountInfo(accountInfo.result.matches)
+            resetAccountInfo()
         }
     }, [timePeriod]);
+
+    useEffect(() => {
+        if(filteredAccountInfo != null){
+            for(var match of filteredAccountInfo){
+                handleMatchInfo(match.match_id)
+            }
+        }
+    }, [filteredAccountInfo]);
 
     return ( 
         <div className="account-page">
@@ -53,7 +103,7 @@ const AccountPage = ({}) => {
                 <h1 className="account-name" >{user.userName}</h1>
                 <div className="account-info">
                     <div className="account-info-header">
-                        <h3 className="header-box">Games this week: {filteredAccountInfo.length}</h3>
+                        <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
                         <div className="header-box time-selector">
                             <h3>Time Period:</h3>
                             <button onClick={() => setTimePeriod(Math.round(Date.now()/1000) - 86400)}>1 Day</button>
@@ -62,15 +112,15 @@ const AccountPage = ({}) => {
                         </div>
                     </div>
                     <div className="account-info-body">
-                        <AccountInfoDisplay label={"Total Damage Done"}/>
-                        <AccountInfoDisplay label={"Total Kills"}/>
-                        <AccountInfoDisplay label={"Total Tower Damage"}/>
-                        <AccountInfoDisplay label={"Total Denies"}/>
-                        <AccountInfoDisplay label={"Total Deaths"}/>
-                        <AccountInfoDisplay label={"Total Healing"}/>
-                        <AccountInfoDisplay label={"Total Last Hits"}/>
-                        <AccountInfoDisplay label={"Total Assists"}/> 
-                        <AccountInfoDisplay label={"Total Gold Earned"}/>
+                        <AccountInfoDisplay label={"Total Damage Done"} value={damage}/>
+                        <AccountInfoDisplay label={"Total Kills"} value={kills}/>
+                        <AccountInfoDisplay label={"Total Tower Damage"} value={towerDamage}/>
+                        <AccountInfoDisplay label={"Total Denies"} value={denies}/>
+                        <AccountInfoDisplay label={"Total Deaths"} value={deaths}/>
+                        <AccountInfoDisplay label={"Total Healing"} value={healing}/>
+                        <AccountInfoDisplay label={"Total Last Hits"} value={lastHits}/>
+                        <AccountInfoDisplay label={"Total Assists"} value={assists}/> 
+                        <AccountInfoDisplay label={"Total Net Worth"} value={netWorth}/>
                     </div>
                 </div>
             </div>
