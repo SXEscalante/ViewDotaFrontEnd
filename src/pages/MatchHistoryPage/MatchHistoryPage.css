@@ -5,15 +5,9 @@
 }
 table{
     margin-top: 3rem;
-    border: 1px solid #9c5355;
+    border: 1px solid #a52125;
     width: 80vw;
 }
-.front{
-    display: flex;
-    justify-content: space-between;
-    width: 60vw;
-    padding-left: 20px;
-}
-.friends{
-    padding-right: 20px;
+.match-table{
+    width: 80vw !important;
 }

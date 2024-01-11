@@ -1,0 +1,18 @@
+.win{
+    color: limegreen;
+}
+.loss{
+    color: red;
+}
+.result{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+td{
+    padding-left: 70px;
+}
+tr:hover{
+    background-color: rgb(41, 39, 40);
+}
+

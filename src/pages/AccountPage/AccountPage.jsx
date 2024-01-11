@@ -21,6 +21,7 @@ const AccountPage = ({}) => {
     const [lastHits, setLastHits] = useState(0);
     const [assists, setAssists] = useState(0);
     const [netWorth, setNetWorth] = useState(0);
+    const [mostPlayedHero, setMostPlayedHero] = useState(-1);
     
     const [user] = useAuth();
 
@@ -36,15 +37,19 @@ const AccountPage = ({}) => {
     }
 
     const handleMatchInfo = async (matchId) => {
-        try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
-            if(responce.status === 200){
-                console.log(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId))
-                updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId))
+        return new Promise(async (resolve, reject) => {
+            try {
+                const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
+                if(responce.status === 200){
+                    const heroId = responce.data.result.players.filter((player) => player.account_id == user.steamAccountId)[0].hero_id
+                    updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId), heroId)
+                    resolve(heroId);
+                }
+            } catch (error) {
+                console.log("Error getting account info", error)
+                reject();
             }
-        } catch (error) {
-            console.log("Error getting account info", error)
-        }
+        })
     }
 
     const updateAccountInfo = (matchInfo) => {
@@ -76,8 +81,32 @@ const AccountPage = ({}) => {
         setLastHits(0)
         setAssists(0)
         setNetWorth(0)
+        setMostPlayedHero(-1)
     }
     
+    const findMostPlayedHero = (heroIds) => {
+        console.log("heroIds", heroIds)
+        var matchCount = {};
+        let topPlayedHero = heroIds[0], maxCount = 0;
+        for (let i = 0; i < heroIds.length; i++ ){
+            let hero = heroIds[i]
+
+            if(matchCount[hero] == null){
+                matchCount[hero] = 1;
+            }
+            else {
+                matchCount[hero]++;
+            }
+
+            if (matchCount[hero] > maxCount){
+                mostPlayedHero = hero;
+                maxCount = matchCount[hero]
+            }
+        }
+        console.log("hero", topPlayedHero)
+        setMostPlayedHero(topPlayedHero)
+    }
+
     useEffect(() => {
         handleAccountInfo()
     }, []);
@@ -91,9 +120,12 @@ const AccountPage = ({}) => {
 
     useEffect(() => {
         if(filteredAccountInfo != null){
-            for(var match of filteredAccountInfo){
-                handleMatchInfo(match.match_id)
-            }
+            const promises = filteredAccountInfo.map(match => handleMatchInfo(match.match_id));
+            Promise.all(promises).then((heroIds) => {
+                findMostPlayedHero(heroIds);
+            }).catch((error) => {
+                console.log("Error filtering match info:", error)
+            })
         }
     }, [filteredAccountInfo]);
 

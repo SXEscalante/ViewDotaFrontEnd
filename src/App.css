@@ -11,11 +11,13 @@
 html {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  color: #89191c;
+  color: #a52125;
 }
 
 p {
   font-size: 20px;
+  font-weight: 1000;
+  font-style: bo;
 }
 
 button {
@@ -25,6 +27,7 @@ button {
   color: #89191c;
   font-size: 1rem;
   font-family: inherit;
+  font-weight: 500;
   max-width: 100px;
   padding: 0.5rem 0.5rem;
 }
@@ -60,7 +63,7 @@ button:hover {
 }
 
 .viewdota{
-  background-color: #ea8e90;
+  background-color: rgb(52, 48, 50);
   min-height: 100vh;
   height: 100%;
 }
