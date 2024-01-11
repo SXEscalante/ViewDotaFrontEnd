@@ -16,6 +16,7 @@ function setUserObject(user) {
     id: user.id,
     email: user.email,
     steamAccountId: user.steamAccountId,
+    steamId: user.steamId,
   };
 }
 

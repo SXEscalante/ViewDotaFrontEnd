@@ -1,6 +1,8 @@
+import "./FriendMatchDetails.css"
+
 const FriendMatchDetails = ({}) => {
     return ( 
-        <div className="match-details">
+        <div className="friends-match-details">
             <div>
                 <div>
                     <p>Duration</p>
@@ -19,7 +21,7 @@ const FriendMatchDetails = ({}) => {
                     <p></p>
                 </div>
             </div>
-            <div className="sidebar">
+            <div className="friend-hero-sidebar">
                 <div className="hero-info">
                     <img src="" alt="" />
                     <p>Kills</p>

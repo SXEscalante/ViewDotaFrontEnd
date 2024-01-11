@@ -1,0 +1,6 @@
+.friends-match-details{
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #a52125;
+    padding: 2rem;
+}

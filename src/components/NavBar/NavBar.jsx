@@ -11,6 +11,9 @@ const Navbar = () => {
   const { logoutUser, user } = useContext(AuthContext);
   const [username] = useAuth();
   const navigate = useNavigate();
+
+  console.log(username)
+
   return (
     <div className="navBar">
       <ul>

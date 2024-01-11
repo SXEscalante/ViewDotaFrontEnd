@@ -1,3 +1,23 @@
-.match-details{
+.match-data{
     display: flex;
+    justify-content: space-between;
+    margin: 4rem;
+}
+.data-container{
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+}
+.data{
+    display: flex;
+    justify-content: space-between;
+}
+.match-sidebar{
+    border: 1px solid #a52125;
+    padding: 2rem;
+}
+.hero-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
