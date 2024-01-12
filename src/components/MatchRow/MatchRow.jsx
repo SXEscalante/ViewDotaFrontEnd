@@ -82,10 +82,6 @@ const MatchRow = ({matchId, friendsList}) => {
             filterPlayerInfo(matchInfo)
         }
     }, [matchInfo]);
-    
-    useEffect(() => {
-        setFriends(friendsList)
-    }, [friendsList]);
 
     useEffect(() => {
         console.log(friendsInMatch)

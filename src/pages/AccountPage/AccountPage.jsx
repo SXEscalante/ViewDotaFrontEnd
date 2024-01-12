@@ -11,7 +11,9 @@ const AccountPage = ({friendsList}) => {
     const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
     const [selectedTimeFrame, setSelectedTimeFrame] = useState(-1);
-    const [friends, setFriends] = useState([]);
+    const [friends, setFriends] = useState(friendsList);
+    const [recentlySeenFriends, setRecentlySeenFriends] = useState([]);
+    const [recentFriendsList, setRecentFriendsList] = useState([]);
 
     const [damage, setDamage] = useState(0);
     const [kills, setKills] = useState(0);
@@ -43,9 +45,9 @@ const AccountPage = ({friendsList}) => {
             try {
                 const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
                 if(responce.status === 200){
-                    console.log("data",responce.data)
                     const heroId = responce.data.result.players.filter((player) => player.account_id == user.steamAccountId)[0].hero_id
                     updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId), heroId)
+                    findGamesWithFriends(responce.data.result.players)
                     resolve(heroId);
                 }
             } catch (error) {
@@ -53,6 +55,18 @@ const AccountPage = ({friendsList}) => {
                 reject();
             }
         })
+    }
+
+    const findGamesWithFriends = (players) => {
+        console.log(friends)
+        for(let friend of friends){
+            let result = players.filter((player) => player.account_id == friend.accountId)
+            if (result.length > 0){
+                friend.recentGames++
+                console.log(friend)
+            }
+        }
+        setRecentlySeenFriends(friends.filter((friend) => friend.recentGames > 0))
     }
 
     const updateAccountInfo = (matchInfo) => {
@@ -76,6 +90,9 @@ const AccountPage = ({friendsList}) => {
 
 
     const resetAccountInfo = () => {
+        for(let friend of friends){
+            friend.recentGames = 0
+        }
         setDamage(0)
         setKills(0)
         setTowerDamage(0)
@@ -113,7 +130,9 @@ const AccountPage = ({friendsList}) => {
 
     useEffect(() => {
         handleAccountInfo()
-
+        for(let friend of friends){
+            friend["recentGames"] = 0
+        }
     }, []);
 
     useEffect(() => {
@@ -135,14 +154,8 @@ const AccountPage = ({friendsList}) => {
     }, [filteredAccountInfo]);
 
     useEffect(() => {
-        console.log(selectedTimeFrame)
-    }, [selectedTimeFrame]);
-
-    useEffect(() => {
-        if(friendsList != null) {
-            setFriends(friendsList.map((friend, i) => <FriendsListEntry key={i} friend={friend}/>))
-        }
-    }, []);
+        setRecentFriendsList(recentlySeenFriends.map((friend) => <FriendsListEntry friend={friend}/>))
+    }, [recentlySeenFriends]);
 
     return ( 
         <div className="account-page">
@@ -182,7 +195,7 @@ const AccountPage = ({friendsList}) => {
             </div>
             <div className="sidebar">
                 <h2>Friends</h2>
-                {friends}
+                {recentFriendsList}
             </div>
         </div>
     );

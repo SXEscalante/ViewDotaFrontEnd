@@ -7,7 +7,7 @@ import FriendMatchDetails from "../../components/FriendMatchDetails/FriendMatchD
 
 import "./MatchDetailsPage.css"
 
-const MatchDetailsPage = ({}) => {
+const MatchDetailsPage = ({friendsList}) => {
     const [matchInfo, setMatchInfo] = useState();
     const [result, setResult] = useState(0);
     const [heroId, setHeroId] = useState(0);
@@ -18,6 +18,7 @@ const MatchDetailsPage = ({}) => {
     const [healing, setHealing] = useState(0);
     const [netWorth, setNetWorth] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [friendsInMatch, setFriendsInMatch] = useState([]);
     
     const { matchId } = useParams();
     
@@ -36,6 +37,19 @@ const MatchDetailsPage = ({}) => {
 
     const filterPlayerInfo = () => {
         updatePlayerInfo(matchInfo.players.filter((player) => player.account_id == user.steamAccountId))
+        let tempFriendsInMatch = [];
+        for(var friend of friendsList){
+            const friendInMatch = (matchInfo.players.filter((player) => player.account_id == friend.accountId))
+            if(friendInMatch.length > 0){
+                let friendDetails = {
+                    friendsMatchDetails: friendInMatch[0],
+                    personaName: friend.personaName
+                }
+                tempFriendsInMatch.push(friendDetails);
+            }
+        }
+        console.log(tempFriendsInMatch)
+        setFriendsInMatch(tempFriendsInMatch.map((friendDetails) => <FriendMatchDetails details={friendDetails}/>))
     }
 
     const updatePlayerInfo = (playerDetails) => {
@@ -82,7 +96,7 @@ const MatchDetailsPage = ({}) => {
                         <p>{netWorth}</p>
                     </div>
                     <br />
-                    <FriendMatchDetails/>
+                    {friendsInMatch}
                 </div>
                 <div className="match-sidebar">
                     <div className="hero-info">

@@ -71,9 +71,9 @@ function App() {
           <>
             <Route path="/account" element={<AccountPage friendsList={friendsIdList}/>} />
             <Route path="/matches" element={<MatchHistoryPage friendsList={friendsIdList}/>} />
+            <Route path="/match/:matchId" element={<MatchDetailsPage friendsList={friendsIdList}/> } />
           </>
         )}
-        <Route path="/match/:matchId" element={<MatchDetailsPage /> } />
       </Routes>
     </div>
   );

@@ -4,7 +4,7 @@ const FriendsListEntry = ({friend}) => {
     return ( 
         <div className="friend-container">
             <p>{friend.personaName}</p>
-            <p>Games played together</p>
+            <p>{`Games played together: ${friend.recentGames}`}</p>
         </div>
     );
 }
