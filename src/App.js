@@ -48,23 +48,31 @@ function App() {
       handleFriendsList()
     }
   }, []);
+  
+  useEffect(() => {
+    console.log(friendsIdList)
+  }, [friendsIdList]);
 
   const steamIdToAccountId = (friend) =>{
     let bigAccountId = bigInt(friend.steamid).minus(steamid64ident)
     let accountId = bigAccountId.toJSNumber()
-    let personaname = friend.personaname
-    return {accountId, personaname}
+    let personaName = friend.personaname
+    return {accountId, personaName}
   } 
 
   return (
     <div className="viewdota">
       <Navbar />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage/>} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/matches" element={<MatchHistoryPage />} />
+        {friendsIdList.length > 0 && (
+          <>
+            <Route path="/account" element={<AccountPage friendsList={friendsIdList}/>} />
+            <Route path="/matches" element={<MatchHistoryPage friendsList={friendsIdList}/>} />
+          </>
+        )}
         <Route path="/match/:matchId" element={<MatchDetailsPage /> } />
       </Routes>
     </div>

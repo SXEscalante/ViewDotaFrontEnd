@@ -1,16 +1,17 @@
 import { useDeferredValue, useEffect, useState } from "react";
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
-import FriendsListEntrty from "../../components/FriendListEntry/FriendsListEntry";
+import FriendsListEntry from "../../components/FriendListEntry/FriendsListEntry";
 import useAuth from "../../hooks/useAuth";
 
 import "./AccountPage.css"
 import axios from "axios";
 
-const AccountPage = ({}) => {
+const AccountPage = ({friendsList}) => {
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
     const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
     const [selectedTimeFrame, setSelectedTimeFrame] = useState(-1);
+    const [friends, setFriends] = useState([]);
 
     const [damage, setDamage] = useState(0);
     const [kills, setKills] = useState(0);
@@ -73,6 +74,7 @@ const AccountPage = ({}) => {
         }
     }
 
+
     const resetAccountInfo = () => {
         setDamage(0)
         setKills(0)
@@ -111,6 +113,7 @@ const AccountPage = ({}) => {
 
     useEffect(() => {
         handleAccountInfo()
+
     }, []);
 
     useEffect(() => {
@@ -134,6 +137,12 @@ const AccountPage = ({}) => {
     useEffect(() => {
         console.log(selectedTimeFrame)
     }, [selectedTimeFrame]);
+
+    useEffect(() => {
+        if(friendsList != null) {
+            setFriends(friendsList.map((friend, i) => <FriendsListEntry key={i} friend={friend}/>))
+        }
+    }, []);
 
     return ( 
         <div className="account-page">
@@ -173,7 +182,7 @@ const AccountPage = ({}) => {
             </div>
             <div className="sidebar">
                 <h2>Friends</h2>
-                <FriendsListEntrty/>
+                {friends}
             </div>
         </div>
     );

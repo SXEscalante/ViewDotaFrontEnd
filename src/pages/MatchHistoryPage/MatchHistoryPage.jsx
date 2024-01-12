@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FriendContext } from "../../context/FriendsListContext";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
@@ -6,15 +7,16 @@ import MatchRow from "../../components/MatchRow/MatchRow";
 
 import "./MatchHistoryPage.css"
 
-const MatchHistoryPage = ({}) => {
+const MatchHistoryPage = ({friendsList}) => {
+
     const [matchHistory, setMatchHistory] = useState();
     const [matches, setMatches] = useState([]);
 
     const [user] = useAuth();
+    const friendIdList = useContext(FriendContext)
 
     const handleMatchHistory = async () => {
         try {
-            console.log(user.steamAccountId)
             const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
             if(responce.status === 200){
                 setMatchHistory(responce.data)
@@ -26,11 +28,12 @@ const MatchHistoryPage = ({}) => {
     
     useEffect(() => {
         handleMatchHistory()
+        console.log("friendslist", friendIdList)
     }, []);
 
     useEffect(() => {
         if(matchHistory != null && matchHistory.result.matches != null){
-            setMatches(matchHistory.result.matches.map((match, i) => <MatchRow key={i} matchId={match.match_id}/>))
+            setMatches(matchHistory.result.matches.map((match, i) => <MatchRow key={i} matchId={match.match_id} friendsList={friendsList}/>))
         }
     }, [matchHistory]);
 

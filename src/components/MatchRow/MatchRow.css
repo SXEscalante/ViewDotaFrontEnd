@@ -15,4 +15,8 @@ td{
 tr:hover{
     background-color: rgb(41, 39, 40);
 }
+.match-history-friends{
+    font-weight: 200;
+    font-size: 18px;
+}
 

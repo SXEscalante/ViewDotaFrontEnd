@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 
 import "./MatchRow.css"
 
-const MatchRow = ({matchId}) => {
+const MatchRow = ({matchId, friendsList}) => {
     const [matchInfo, setMatchInfo] = useState();
     
     const [result, setResult] = useState(0);
@@ -18,6 +18,8 @@ const MatchRow = ({matchId}) => {
     const [healing, setHealing] = useState(0);
     const [netWorth, setNetWorth] = useState(0);
     const [duration, setDuration] = useState(0);
+    const [friends, setFriends] = useState();
+    const [friendsInMatch, setFriendsInMatch] = useState([]);
 
     const [user] = useAuth();
 
@@ -35,8 +37,15 @@ const MatchRow = ({matchId}) => {
     }
 
     const filterPlayerInfo = (matchInfo) => {
-        console.log(matchInfo.result.players)
         updateMatchInfo(matchInfo.result.players.filter((player) => player.account_id == user.steamAccountId))
+        let tempFriendsInMatch = [];
+        for(var friend of friendsList){
+            const friendInMatch = (matchInfo.result.players.filter((player) => player.account_id == friend.accountId))
+            if(friendInMatch.length > 0){
+                tempFriendsInMatch.push(friend.personaName);
+            }
+        }
+        setFriendsInMatch(tempFriendsInMatch.map((friend) => <p className="match-history-friends">{friend}</p>))
     }
 
     const updateMatchInfo = (playerDetails) => {
@@ -53,7 +62,6 @@ const MatchRow = ({matchId}) => {
     }
 
     const determineMatchResult = (playerDetails) => {
-        console.log(playerDetails)
         if(playerDetails[0].team_number === 0 && matchInfo.result.radiant_win === true){
             setResult(1)
         }
@@ -74,6 +82,14 @@ const MatchRow = ({matchId}) => {
             filterPlayerInfo(matchInfo)
         }
     }, [matchInfo]);
+    
+    useEffect(() => {
+        setFriends(friendsList)
+    }, [friendsList]);
+
+    useEffect(() => {
+        console.log(friendsInMatch)
+    }, [friendsInMatch]);
 
     return ( 
             <tr onClick={() => navigate(`/match/${matchId}`)}>
@@ -87,7 +103,7 @@ const MatchRow = ({matchId}) => {
                 <td>{healing}</td>
                 <td>{netWorth}</td>
                 <td>{duration}</td>
-                <td>Friends</td>
+                <td>{friendsInMatch}</td>
             </tr>
     );
 }

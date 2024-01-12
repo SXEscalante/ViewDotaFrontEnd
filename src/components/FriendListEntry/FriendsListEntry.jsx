@@ -1,12 +1,12 @@
 import "./FriendListEntry.css"
 
-const FriendsListEntrty = ({}) => {
+const FriendsListEntry = ({friend}) => {
     return ( 
         <div className="friend-container">
-            <p>name</p>
+            <p>{friend.personaName}</p>
             <p>Games played together</p>
         </div>
     );
 }
  
-export default FriendsListEntrty;
+export default FriendsListEntry;
