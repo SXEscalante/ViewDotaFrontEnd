@@ -22,7 +22,6 @@ import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
   const [friendsList, setFriendsList] = useState([]);
-  const [friendsNames, setFriendsNames] = useState([]);
   const [friendsIdList, setFriendsIdList] = useState([]);
   const [user] = useAuth();
   var bigInt = require('big-integer')
@@ -33,28 +32,15 @@ function App() {
     try {
       const responce = await axios.get(`https://localhost:5001/api/SteamAPI/friendsList/${user.steamId}`)
       if(responce.status === 200){
-          setFriendsList(responce.data.friendslist.friends)
+          setFriendsList(responce.data)
       }
     } catch (error) {
         console.log("Error getting account info", error)
     }
   }
-
-  const handleFriendNames = async (steamId) => {
-    try {
-      const responce = await axios.get(`https://localhost:5001/api/SteamAPI/friendsList/${user.steamId}`)
-      if(responce.status === 200){
-          setFriendsList(responce.data.friendslist.friends)
-      }
-    } catch (error) {
-        console.log("Error getting account info", error)
-    }
-  }
-  
 
   useEffect(() => {
-    setFriendsNames(friendsIdList.map(friend) => )
-    setFriendsIdList(friendsList.map((friend) => steamIdToAccountId(friend.steamid)))
+    setFriendsIdList(friendsList.map((friend) =>  steamIdToAccountId(friend)))
   }, [friendsList]);
 
   useEffect(() => {
@@ -63,14 +49,11 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-
-  }, [friendsIdList]);
-
-  const steamIdToAccountId = (steamId) =>{
-    let bigAccountId = bigInt(steamId).minus(steamid64ident)
+  const steamIdToAccountId = (friend) =>{
+    let bigAccountId = bigInt(friend.steamid).minus(steamid64ident)
     let accountId = bigAccountId.toJSNumber()
-    return accountId
+    let personaname = friend.personaname
+    return {accountId, personaname}
   } 
 
   return (
