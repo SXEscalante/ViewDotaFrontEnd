@@ -12,8 +12,6 @@ const Navbar = () => {
   const [username] = useAuth();
   const navigate = useNavigate();
 
-  console.log(username)
-
   return (
     <div className="navBar">
       <ul>

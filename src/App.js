@@ -1,7 +1,8 @@
 // General Imports
 import { Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import useAuth from "./hooks/useAuth";
-import { useEffect } from "react";
 import "./App.css";
 
 // Pages Imports
@@ -20,39 +21,57 @@ import Footer from "./components/Footer/Footer";
 import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
-  const steamid64ident = 76561197960265728
+  const [friendsList, setFriendsList] = useState([]);
+  const [friendsNames, setFriendsNames] = useState([]);
+  const [friendsIdList, setFriendsIdList] = useState([]);
+  const [user] = useAuth();
+  var bigInt = require('big-integer')
 
-  function commidToSteamid(commid) {
-    let steamid = [];
-    steamid.push('STEAM_0:');
-    let steamidacct = parseInt(commid) - steamid64ident;
-    
-    if (steamidacct % 2 === 0) {
-        steamid.push('0:');
-    } else {
-        steamid.push('1:');
+  let steamid64ident = bigInt(76561197960265728)
+
+  const handleFriendsList = async () => {
+    try {
+      const responce = await axios.get(`https://localhost:5001/api/SteamAPI/friendsList/${user.steamId}`)
+      if(responce.status === 200){
+          setFriendsList(responce.data.friendslist.friends)
+      }
+    } catch (error) {
+        console.log("Error getting account info", error)
     }
-    
-    steamid.push((steamidacct / 2).toString());
-    
-    return steamid.join('');
-   }
+  }
 
-   function steamidToUsteamid(steamid) {
-    var steamidSplit = steamid.split(':');
-    
-    var y = parseInt(steamidSplit[1]);
-    var z = parseInt(steamidSplit[2]);
-    
-    var steamacct = z * 2 + y;
-    
-    return steamacct;
-   }
-
-   useEffect(() => {
-    console.log(steamidToUsteamid(commidToSteamid(76561198079487953)))
-   }, []);
+  const handleFriendNames = async (steamId) => {
+    try {
+      const responce = await axios.get(`https://localhost:5001/api/SteamAPI/friendsList/${user.steamId}`)
+      if(responce.status === 200){
+          setFriendsList(responce.data.friendslist.friends)
+      }
+    } catch (error) {
+        console.log("Error getting account info", error)
+    }
+  }
   
+
+  useEffect(() => {
+    setFriendsNames(friendsIdList.map(friend) => )
+    setFriendsIdList(friendsList.map((friend) => steamIdToAccountId(friend.steamid)))
+  }, [friendsList]);
+
+  useEffect(() => {
+    if(user){
+      handleFriendsList()
+    }
+  }, []);
+
+  useEffect(() => {
+
+  }, [friendsIdList]);
+
+  const steamIdToAccountId = (steamId) =>{
+    let bigAccountId = bigInt(steamId).minus(steamid64ident)
+    let accountId = bigAccountId.toJSNumber()
+    return accountId
+  } 
 
   return (
     <div className="viewdota">

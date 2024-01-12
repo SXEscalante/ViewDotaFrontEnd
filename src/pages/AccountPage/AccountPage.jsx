@@ -29,6 +29,7 @@ const AccountPage = ({}) => {
         try {
             const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
             if(responce.status === 200){
+                console.log(responce.data)
                 setAccountInfo(responce.data)
             }
         } catch (error) {
@@ -41,12 +42,13 @@ const AccountPage = ({}) => {
             try {
                 const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
                 if(responce.status === 200){
+                    console.log("data",responce.data)
                     const heroId = responce.data.result.players.filter((player) => player.account_id == user.steamAccountId)[0].hero_id
                     updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId), heroId)
                     resolve(heroId);
                 }
             } catch (error) {
-                console.log("Error getting account info", error)
+                console.log("Error getting match info", error)
                 reject();
             }
         })

@@ -14,6 +14,7 @@ const MatchHistoryPage = ({}) => {
 
     const handleMatchHistory = async () => {
         try {
+            console.log(user.steamAccountId)
             const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
             if(responce.status === 200){
                 setMatchHistory(responce.data)

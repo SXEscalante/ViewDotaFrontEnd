@@ -35,6 +35,7 @@ const MatchRow = ({matchId}) => {
     }
 
     const filterPlayerInfo = (matchInfo) => {
+        console.log(matchInfo.result.players)
         updateMatchInfo(matchInfo.result.players.filter((player) => player.account_id == user.steamAccountId))
     }
 
@@ -52,7 +53,7 @@ const MatchRow = ({matchId}) => {
     }
 
     const determineMatchResult = (playerDetails) => {
-        console.log(matchInfo.result.radiant_win)
+        console.log(playerDetails)
         if(playerDetails[0].team_number === 0 && matchInfo.result.radiant_win === true){
             setResult(1)
         }
