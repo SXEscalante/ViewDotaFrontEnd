@@ -45,7 +45,7 @@ const AccountPage = ({friendsList}) => {
                 const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
                 if(responce.status === 200){
                     const heroId = responce.data.result.players.filter((player) => player.account_id == user.steamAccountId)[0].hero_id
-                    updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId), heroId)
+                    updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId))
                     findGamesWithFriends(responce.data.result.players)
                     resolve(heroId);
                 }
@@ -198,8 +198,11 @@ const AccountPage = ({friendsList}) => {
                     </div>
                 </div>
             </div>
+            <div className="hero-box">
+                <p></p>
+            </div>
             <div className="sidebar">
-                <h2>Friends</h2>
+                <h2 className="friends-label">Friends</h2>
                 {recentFriendsList}
             </div>
         </div>

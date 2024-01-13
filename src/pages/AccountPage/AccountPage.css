@@ -39,8 +39,19 @@
     display: flex;
     flex-direction: column;
     padding: 4rem 2rem 0 0;
+    width: 375px;
 }
 .pressed{
     color: #f6d0d1;
     background-color: #89191c;
+}
+.friends-label{
+    margin-bottom: 4rem;
+    height: 48px;
+}
+.hero-box{
+    margin-top: 176px;
+    border: 1px solid #a52125;
+    width: 400px;
+    height: 500px;
 }
