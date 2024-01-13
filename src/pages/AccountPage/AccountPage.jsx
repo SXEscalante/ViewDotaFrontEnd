@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
 import FriendsListEntry from "../../components/FriendListEntry/FriendsListEntry";
 import useAuth from "../../hooks/useAuth";
+import heroes from "../../data/DotaHeroes"
 
 import "./AccountPage.css"
 import axios from "axios";
@@ -131,6 +132,7 @@ const AccountPage = ({friendsList}) => {
         for(let friend of friends){
             friend["recentGames"] = 0
         }
+        console.log("dis", heroes)
     }, []);
 
     useEffect(() => {
@@ -199,7 +201,7 @@ const AccountPage = ({friendsList}) => {
                 </div>
             </div>
             <div className="hero-box">
-                <p></p>
+                <img src={heroes[38].img} alt="hoody" />
             </div>
             <div className="sidebar">
                 <h2 className="friends-label">Friends</h2>
