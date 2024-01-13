@@ -50,8 +50,32 @@
     height: 48px;
 }
 .hero-box{
+    display: flex;
+    justify-content: center;
     margin-top: 176px;
     border: 1px solid #a52125;
     width: 400px;
     height: 500px;
+}
+.top-hero{
+    margin-top: 75px;
+    width: 250px;
+    height: 250px;
+}
+.top-hero-img{
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+}
+.top-hero-name{
+    padding: 5px;
+    position: relative;
+    justify-content: center;
+    bottom: 40px;
+    display: none;
+    background-color: rgba(46, 43, 44, 0.548);
+}
+.top-hero:hover .top-hero-name{
+    display: flex;
+    
 }

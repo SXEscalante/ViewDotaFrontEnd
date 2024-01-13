@@ -25,7 +25,8 @@ const AccountPage = ({friendsList}) => {
     const [lastHits, setLastHits] = useState(0);
     const [assists, setAssists] = useState(0);
     const [netWorth, setNetWorth] = useState(0);
-    const [mostPlayedHero, setMostPlayedHero] = useState(-1);
+    const [mostPlayedHeroId, setMostPlayedHeroId] = useState(-1);
+    const [mostPlayedHero, setMostPlayedHero] = useState({});
     
     const [user] = useAuth();
 
@@ -101,11 +102,10 @@ const AccountPage = ({friendsList}) => {
         setLastHits(0)
         setAssists(0)
         setNetWorth(0)
-        setMostPlayedHero(-1)
+        setMostPlayedHeroId(-1)
     }
     
     const findMostPlayedHero = (heroIds) => {
-        console.log("heroIds", heroIds)
         var matchCount = {};
         let topPlayedHero = heroIds[0], maxCount = 0;
         for (let i = 0; i < heroIds.length; i++ ){
@@ -119,12 +119,11 @@ const AccountPage = ({friendsList}) => {
             }
 
             if (matchCount[hero] > maxCount){
-                mostPlayedHero = hero;
+                topPlayedHero = hero;
                 maxCount = matchCount[hero]
             }
         }
-        console.log("hero", topPlayedHero)
-        setMostPlayedHero(topPlayedHero)
+        setMostPlayedHeroId(topPlayedHero)
     }
 
     useEffect(() => {
@@ -132,7 +131,6 @@ const AccountPage = ({friendsList}) => {
         for(let friend of friends){
             friend["recentGames"] = 0
         }
-        console.log("dis", heroes)
     }, []);
 
     useEffect(() => {
@@ -157,12 +155,16 @@ const AccountPage = ({friendsList}) => {
         let sortedFriends = [...recentlySeenFriends];
         sortedFriends.sort((a, b) => b.recentGames - a.recentGames);
 
-        setRecentFriendsList(sortedFriends.map((friend) => <FriendsListEntry friend={friend}/>))
+        setRecentFriendsList(sortedFriends.map((friend, i) => <FriendsListEntry key={i} friend={friend}/>))
     }, [recentlySeenFriends]);
 
     useEffect(() => {
-        
-    }, [recentFriendsList]);
+
+        const mostPlayedHeroObj = heroes.filter((hero) => hero.heroId == mostPlayedHeroId)
+        console.log("dis", mostPlayedHeroObj[0])
+        setMostPlayedHero(mostPlayedHeroObj[0])
+
+    }, [mostPlayedHeroId]);
 
     return ( 
         <div className="account-page">
@@ -201,7 +203,12 @@ const AccountPage = ({friendsList}) => {
                 </div>
             </div>
             <div className="hero-box">
-                <img src={heroes[38].img} alt="hoody" />
+                {mostPlayedHero &&
+                    <div className="top-hero">
+                    <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
+                    <p className="top-hero-name">{mostPlayedHero.name}</p>
+                    </div>
+                }
             </div>
             <div className="sidebar">
                 <h2 className="friends-label">Friends</h2>

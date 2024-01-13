@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
+import heroes from "../../data/DotaHeroes"
 
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -19,7 +20,8 @@ const FriendsAccountPage = ({}) => {
     const [lastHits, setLastHits] = useState(0);
     const [assists, setAssists] = useState(0);
     const [netWorth, setNetWorth] = useState(0);
-    const [mostPlayedHero, setMostPlayedHero] = useState(-1);
+    const [mostPlayedHeroId, setMostPlayedHeroId] = useState(-1);
+    const [mostPlayedHero, setMostPlayedHero] = useState({});
 
     const { friendId } = useParams();
 
@@ -99,16 +101,17 @@ const FriendsAccountPage = ({}) => {
             }
 
             if (matchCount[hero] > maxCount){
-                mostPlayedHero = hero;
+                topPlayedHero = hero;
                 maxCount = matchCount[hero]
             }
         }
         console.log("hero", topPlayedHero)
-        setMostPlayedHero(topPlayedHero)
+        setMostPlayedHeroId(topPlayedHero)
     }
 
     useEffect(() => {
         handleAccountInfo()
+        
     }, []);
 
     useEffect(() => {
@@ -128,6 +131,14 @@ const FriendsAccountPage = ({}) => {
             })
         }
     }, [filteredAccountInfo]);
+
+    useEffect(() => {
+
+        const mostPlayedHeroObj = heroes.filter((hero) => hero.heroId == mostPlayedHeroId)
+        console.log("dis", mostPlayedHeroObj[0])
+        setMostPlayedHero(mostPlayedHeroObj[0])
+
+    }, [mostPlayedHeroId]);
 
     return ( 
         <div className="account-page">
@@ -164,6 +175,14 @@ const FriendsAccountPage = ({}) => {
                         <AccountInfoDisplay label={"Total Net Worth"} value={netWorth}/>
                     </div>
                 </div>
+            </div>
+            <div className="hero-box">
+                {mostPlayedHero &&
+                    <div className="top-hero">
+                    <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
+                    <p className="top-hero-name">{mostPlayedHero.name}</p>
+                    </div>
+                }
             </div>
         </div>
     );
