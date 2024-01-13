@@ -19,6 +19,7 @@ import Footer from "./components/Footer/Footer";
 
 // Util Imports
 import PrivateRoute from "./utils/PrivateRoute";
+import FriendsAccountPage from "./pages/FriendsAccountPage/FriendsAccountPage";
 
 function App() {
   const [friendsList, setFriendsList] = useState([]);
@@ -67,6 +68,7 @@ function App() {
         <Route path="/" element={<HomePage/>} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/friendsAccount/:friendId" element={<FriendsAccountPage />}/>
         {friendsIdList.length > 0 && (
           <>
             <Route path="/account" element={<AccountPage friendsList={friendsIdList}/>} />

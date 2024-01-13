@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
-import FriendsListEntry from "../../components/FriendListEntry/FriendsListEntry";
-import useAuth from "../../hooks/useAuth";
 
-import "./AccountPage.css"
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const AccountPage = ({friendsList}) => {
+const FriendsAccountPage = ({}) => {
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
     const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
     const [selectedTimeFrame, setSelectedTimeFrame] = useState(-1);
-    const [friends, setFriends] = useState(friendsList);
-    const [recentlySeenFriends, setRecentlySeenFriends] = useState([]);
-    const [recentFriendsList, setRecentFriendsList] = useState([]);
 
     const [damage, setDamage] = useState(0);
     const [kills, setKills] = useState(0);
@@ -25,12 +20,13 @@ const AccountPage = ({friendsList}) => {
     const [assists, setAssists] = useState(0);
     const [netWorth, setNetWorth] = useState(0);
     const [mostPlayedHero, setMostPlayedHero] = useState(-1);
-    
-    const [user] = useAuth();
+
+    const { friendId } = useParams();
 
     const handleAccountInfo = async () => {
+        
         try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
+            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${friendId}`)
             if(responce.status === 200){
                 setAccountInfo(responce.data)
             }
@@ -44,9 +40,8 @@ const AccountPage = ({friendsList}) => {
             try {
                 const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
                 if(responce.status === 200){
-                    const heroId = responce.data.result.players.filter((player) => player.account_id == user.steamAccountId)[0].hero_id
-                    updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId), heroId)
-                    findGamesWithFriends(responce.data.result.players)
+                    const heroId = responce.data.result.players.filter((player) => player.account_id == friendId)[0].hero_id
+                    updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == friendId), heroId)
                     resolve(heroId);
                 }
             } catch (error) {
@@ -54,16 +49,6 @@ const AccountPage = ({friendsList}) => {
                 reject();
             }
         })
-    }
-
-    const findGamesWithFriends = (players) => {
-        for(let friend of friends){
-            let result = players.filter((player) => player.account_id == friend.accountId)
-            if (result.length > 0){
-                friend.recentGames++
-            }
-        }
-        setRecentlySeenFriends(friends.filter((friend) => friend.recentGames > 0))
     }
 
     const updateAccountInfo = (matchInfo) => {
@@ -87,10 +72,6 @@ const AccountPage = ({friendsList}) => {
 
 
     const resetAccountInfo = () => {
-        for(let friend of friends){
-            friend.recentGames = 0
-        }
-        setRecentFriendsList([])
         setDamage(0)
         setKills(0)
         setTowerDamage(0)
@@ -128,9 +109,6 @@ const AccountPage = ({friendsList}) => {
 
     useEffect(() => {
         handleAccountInfo()
-        for(let friend of friends){
-            friend["recentGames"] = 0
-        }
     }, []);
 
     useEffect(() => {
@@ -151,21 +129,10 @@ const AccountPage = ({friendsList}) => {
         }
     }, [filteredAccountInfo]);
 
-    useEffect(() => {
-        let sortedFriends = [...recentlySeenFriends];
-        sortedFriends.sort((a, b) => b.recentGames - a.recentGames);
-
-        setRecentFriendsList(sortedFriends.map((friend) => <FriendsListEntry friend={friend}/>))
-    }, [recentlySeenFriends]);
-
-    useEffect(() => {
-        
-    }, [recentFriendsList]);
-
     return ( 
         <div className="account-page">
             <div>
-                <h1 className="account-name" >{user.userName}</h1>
+                <h1 className="account-name" >{}</h1>
                 <div className="account-info">
                     <div className="account-info-header">
                         <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
@@ -198,12 +165,8 @@ const AccountPage = ({friendsList}) => {
                     </div>
                 </div>
             </div>
-            <div className="sidebar">
-                <h2>Friends</h2>
-                {recentFriendsList}
-            </div>
         </div>
     );
 }
  
-export default AccountPage;
+export default FriendsAccountPage;
