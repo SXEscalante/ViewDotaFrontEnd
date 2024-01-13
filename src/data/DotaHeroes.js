@@ -1,622 +1,622 @@
 const heroes = [
     {
         name: "Abaddon", 
-        heroId: ,
+        heroId: 102,
         img: ""
-    }
+    },
     {
         name: "Alchemist", 
-        heroId: ,
+        heroId: 50,
         img: ""
-    }
+    },
     {
         name: "Ancient Apparition", 
-        heroId: ,
+        heroId: 68,
         img: ""
-    }
+    },
     {
         name: "Anti-Mage", 
-        heroId: ,
+        heroId: 1,
         img: ""
-    }
+    },
     {
         name: "Arc Warden", 
-        heroId: ,
+        heroId: 9,
         img: ""
-    }
+    },
     {
         name: "Axe", 
-        heroId: ,
+        heroId: 2,
         img: ""
-    }
+    },
     {
         name: "Bane", 
-        heroId: ,
+        heroId: 3,
         img: ""
-    }
+    },
     {
         name: "Batrider", 
-        heroId: ,
+        heroId: 65,
         img: ""
-    }
+    },
     {
         name: "Beastmaster", 
-        heroId: ,
+        heroId: 38,
         img: ""
-    }
+    },
     {
         name: "Bloodseeker", 
-        heroId: ,
+        heroId: 4,
         img: ""
-    }
+    },
     {
         name: "Bounty Hunter", 
-        heroId: ,
+        heroId: 62,
         img: ""
-    }
+    },
     {
         name: "Brewmaster", 
-        heroId: ,
+        heroId: 78,
         img: ""
-    }
+    },
     {
         name: "Bristleback", 
-        heroId: ,
+        heroId: 99,
         img: ""
-    }
+    },
     {
         name: "Broodmother", 
-        heroId: ,
+        heroId: 61,
         img: ""
-    }
+    },
     {
         name: "Centaur Warrunner", 
-        heroId: ,
+        heroId: 96,
         img: ""
-    }
+    },
     {
         name: "Chaos Knight", 
-        heroId: ,
+        heroId: 81,
         img: ""
-    }
+    },
     {
         name: "Chen", 
-        heroId: ,
+        heroId: 66,
         img: ""
-    }
+    },
     {
         name: "Clinkz", 
-        heroId: ,
+        heroId: 56,
         img: ""
-    }
+    },
     {
         name: "Clockwerk", 
-        heroId: ,
+        heroId: 51,
         img: ""
-    }
+    },
     {
         name: "Crystal Maiden", 
-        heroId: ,
+        heroId: 5,
         img: ""
-    }
+    },
     {
         name: "Dark Seer", 
-        heroId: ,
+        heroId: 55,
         img: ""
-    }
+    },
     {
         name: "Dark Willow", 
-        heroId: ,
+        heroId: 119,
         img: ""
-    }
+    },
     {
         name: "Dawnbreaker", 
-        heroId: ,
+        heroId: 135,
         img: ""
-    }
+    },
     {
         name: "Dazzle", 
-        heroId: ,
+        heroId: 50,
         img: ""
-    }
+    },
     {
         name: "Death Prophet", 
-        heroId: ,
+        heroId: 43,
         img: ""
-    }
+    },
     {
         name: "Disruptor", 
-        heroId: ,
+        heroId: 87,
         img: ""
-    }
+    },
     {
         name: "Doom", 
-        heroId: ,
+        heroId: 69,
         img: ""
-    }
+    },
     {
         name: "Dragon Knight", 
-        heroId: ,
+        heroId: 49,
         img: ""
-    }
+    },
     {
         name: "Drow Ranger", 
-        heroId: ,
+        heroId: 6,
         img: ""
-    }
+    },
     {
         name: "Earth Spirit", 
-        heroId: ,
+        heroId: 107,
         img: ""
-    }
+    },
     {
         name: "Earthshaker", 
-        heroId: ,
+        heroId: 7,
         img: ""
-    }
+    },
     {
         name: "Elder Titan", 
-        heroId: ,
+        heroId: 103,
         img: ""
-    }
+    },
     {
         name: "Ember Spirit", 
-        heroId: ,
+        heroId: 106,
         img: ""
-    }
+    },
     {
         name: "Enchantress", 
-        heroId: ,
+        heroId: 58,
         img: ""
-    }
+    },
     {
         name: "Enigma", 
-        heroId: ,
+        heroId: 33,
         img: ""
-    }
+    },
     {
         name: "Faceless Void", 
-        heroId: ,
+        heroId: 41,
         img: ""
-    }
+    },
     {
         name: "Grimstroke", 
-        heroId: ,
+        heroId: 121,
         img: ""
-    }
+    },
     {
         name: "Gyrocopter", 
-        heroId: ,
+        heroId: 72,
         img: ""
-    }
+    },
     {
         name: "Hoodwink", 
-        heroId: ,
+        heroId: 123,
         img: ""
-    }
+    },
     {
         name: "Huskar", 
-        heroId: ,
+        heroId: 59,
         img: ""
-    }
+    },
     {
         name: "Invoker", 
-        heroId: ,
+        heroId: 74,
         img: ""
-    }
+    },
     {
         name: "Io", 
-        heroId: ,
+        heroId: 91,
         img: ""
-    }
+    },
     {
         name: "Jakiro", 
-        heroId: ,
+        heroId: 64,
         img: ""
-    }
+    },
     {
         name: "Juggernaut", 
-        heroId: ,
+        heroId: 8,
         img: ""
-    }
+    },
     {
         name: "Keeper of the Light", 
-        heroId: ,
+        heroId: 90,
         img: ""
-    }
+    },
     {
         name: "Kunkka", 
-        heroId: ,
+        heroId: 23,
         img: ""
-    }
+    },
     {
         name: "Legion Commander", 
-        heroId: ,
+        heroId: 104,
         img: ""
-    }
+    },
     {
         name: "Leshrac", 
-        heroId: ,
+        heroId: 52,
         img: ""
-    }
+    },
     {
         name: "Lich", 
-        heroId: ,
+        heroId: 31,
         img: ""
-    }
+    },
     {
         name: "Lifestealer", 
-        heroId: ,
+        heroId: 54,
         img: ""
-    }
+    },
     {
         name: "Lina", 
-        heroId: ,
+        heroId: 25,
         img: ""
-    }
+    },
     {
         name: "Lion", 
-        heroId: ,
+        heroId: 26,
         img: ""
-    }
+    },
     {
         name: "Lone Druid", 
-        heroId: ,
+        heroId: 80,
         img: ""
-    }
+    },
     {
         name: "Luna", 
-        heroId: ,
+        heroId: 48,
         img: ""
-    }
+    },
     {
         name: "Lycan", 
-        heroId: ,
+        heroId: 77,
         img: ""
-    }
+    },
     {
         name: "Magnus", 
-        heroId: ,
+        heroId: 97,
         img: ""
-    }
+    },
     {
         name: "Marci", 
-        heroId: ,
+        heroId: 136,
         img: ""
-    }
+    },
     {
         name: "Mars", 
-        heroId: ,
+        heroId: 129,
         img: ""
-    }
+    },
     {
         name: "Medusa", 
-        heroId: ,
+        heroId: 94,
         img: ""
-    }
+    },
     {
         name: "Meepo", 
-        heroId: ,
+        heroId: 82,
         img: ""
-    }
+    },
     {
         name: "Mirana", 
-        heroId: ,
+        heroId: 9,
         img: ""
-    }
+    },
     {
         name: "Monkey King", 
-        heroId: ,
+        heroId: 114,
         img: ""
-    }
+    },
     {
         name: "Morphling", 
-        heroId: ,
+        heroId: 10,
         img: ""
-    }
+    },
     {
         name: "Muerta", 
-        heroId: ,
+        heroId: 138,
         img: ""
-    }
+    },
     {
         name: "Naga Siren", 
-        heroId: ,
+        heroId: 89,
         img: ""
-    }
+    },
     {
         name: "Natures Prophet", 
-        heroId: ,
+        heroId: 53,
         img: ""
-    }
+    },
     {
         name: "Necrophos", 
-        heroId: ,
+        heroId: 36,
         img: ""
-    }
+    },
     {
         name: "Night Stalker", 
-        heroId: ,
+        heroId: 60,
         img: ""
-    }
+    },
     {
         name: "Nyx Assassin", 
-        heroId: ,
+        heroId: 88,
         img: ""
-    }
+    },
     {
         name: "Ogre Magi", 
-        heroId: ,
+        heroId: 84,
         img: ""
-    }
+    },
     {
         name: "Omniknight", 
-        heroId: ,
+        heroId: 57,
         img: ""
-    }
+    },
     {
         name: "Oracle", 
-        heroId: ,
+        heroId: 111,
         img: ""
-    }
+    },
     {
         name: "Outworld Destroyer", 
-        heroId: ,
+        heroId: 76,
         img: ""
-    }
+    },
     {
         name: "Pangolier", 
-        heroId: ,
+        heroId: 120,
         img: ""
-    }
+    },
     {
         name: "Phantom Assassin", 
-        heroId: ,
+        heroId: 44,
         img: ""
-    }
+    },
     {
         name: "Phantom Lancer", 
-        heroId: ,
+        heroId: 12,
         img: ""
-    }
+    },
     {
         name: "Pheonix", 
-        heroId: ,
+        heroId: 110,
         img: ""
-    }
+    },
     {
         name: "Primal Beast", 
-        heroId: ,
+        heroId: 137,
         img: ""
-    }
+    },
     {
         name: "Puck", 
-        heroId: ,
+        heroId: 13,
         img: ""
-    }
+    },
     {
         name: "Pudge", 
-        heroId: ,
+        heroId: 14,
         img: ""
-    }
+    },
     {
         name: "Pugna", 
-        heroId: ,
+        heroId: 45,
         img: ""
-    }
+    },
     {
         name: "Queen of Pain", 
-        heroId: ,
+        heroId: 39,
         img: ""
-    }
+    },
     {
         name: "Razor", 
-        heroId: ,
+        heroId: 15,
         img: ""
-    }
+    },
     {
         name: "Riki", 
-        heroId: ,
+        heroId: 32,
         img: ""
-    }
+    },
     {
         name: "Rubick", 
-        heroId: ,
+        heroId: 86,
         img: ""
-    }
+    },
     {
         name: "Sand King", 
-        heroId: ,
+        heroId: 16,
         img: ""
-    }
+    },
     {
-        name: "Shadow Deamon", 
-        heroId: ,
+        name: "Shadow Demon", 
+        heroId: 79,
         img: ""
-    }
+    },
     {
         name: "Shadow Fiend", 
-        heroId: ,
+        heroId: 11,
         img: ""
-    }
+    },
     {
         name: "Shadow Shaman", 
-        heroId: ,
+        heroId: 27,
         img: ""
-    }
+    },
     {
         name: "Silencer", 
-        heroId: ,
+        heroId: 75,
         img: ""
-    }
+    },
     {
         name: "Skywrath Mage", 
-        heroId: ,
+        heroId: 101,
         img: ""
-    }
+    },
     {
         name: "Slardar", 
-        heroId: ,
+        heroId: 28,
         img: ""
-    }
+    },
     {
         name: "Slark", 
-        heroId: ,
+        heroId: 93,
         img: ""
-    }
+    },
     {
         name: "Snapfire", 
-        heroId: ,
+        heroId: 128,
         img: ""
-    }
+    },
     {
         name: "Sniper", 
-        heroId: ,
+        heroId: 35,
         img: ""
-    }
+    },
     {
         name: "Spectre", 
-        heroId: ,
+        heroId: 67,
         img: ""
-    }
+    },
     {
         name: "Spirit Breaker", 
-        heroId: ,
+        heroId: 71,
         img: ""
-    }
+    },
     {
         name: "Storm Spirit", 
-        heroId: ,
+        heroId: 17,
         img: ""
-    }
+    },
     {
         name: "Sven", 
-        heroId: ,
+        heroId: 18,
         img: ""
-    }
+    },
     {
         name: "Techies", 
-        heroId: ,
+        heroId: 105,
         img: ""
-    }
+    },
     {
         name: "Templar Assassin", 
-        heroId: ,
+        heroId: 46,
         img: ""
-    }
+    },
     {
         name: "Terrorblade", 
-        heroId: ,
+        heroId: 109,
         img: ""
-    }
+    },
     {
         name: "Tidehunter", 
-        heroId: ,
+        heroId: 29,
         img: ""
-    }
+    },
     {
-        name: "T1imbersaw", 
-        heroId: ,
+        name: "Timbersaw", 
+        heroId: 98,
         img: ""
-    }
+    },
     {
         name: "Tinker", 
-        heroId: ,
+        heroId: 34,
         img: ""
-    }
+    },
     {
         name: "Tiny", 
-        heroId: ,
+        heroId: 19,
         img: ""
-    }
+    },
     {
         name: "Treant Protector", 
-        heroId: ,
+        heroId: 83,
         img: ""
-    }
+    },
     {
         name: "Troll Warlord", 
-        heroId: ,
+        heroId: 95,
         img: ""
-    }
+    },
     {
         name: "Tusk", 
-        heroId: ,
+        heroId: 100,
         img: ""
-    }
+    },
     {
         name: "Underlord", 
-        heroId: ,
+        heroId: 108,
         img: ""
-    }
+    },
     {
         name: "Undying", 
-        heroId: ,
+        heroId: 85,
         img: ""
-    }
+    },
     {
         name: "Ursa", 
-        heroId: ,
+        heroId: 70,
         img: ""
-    }
+    },
     {
         name: "Vengful Spirit", 
-        heroId: ,
+        heroId: 20,
         img: ""
-    }
+    },
     {
         name: "Venomancer", 
-        heroId: ,
+        heroId: 40,
         img: ""
-    }
+    },
     {
         name: "Viper", 
-        heroId: ,
+        heroId: 47,
         img: ""
-    }
+    },
     {
         name: "Visage", 
-        heroId: ,
+        heroId: 92,
         img: ""
-    }
+    },
     {
         name: "Void Spirit", 
-        heroId: ,
+        heroId: 126,
         img: ""
-    }
+    },
     {
         name: "Warlock", 
-        heroId: ,
+        heroId: 37,
         img: ""
-    }
+    },
     {
         name: "Weaver", 
-        heroId: ,
+        heroId: 63,
         img: ""
-    }
+    },
     {
         name: "Windranger", 
-        heroId: ,
+        heroId: 21,
         img: ""
-    }{
+    },
+    {
         name: "Winter Wyvern", 
-        heroId: ,
+        heroId: 112,
         img: ""
-    }
+    },
     {
         name: "Witch Doctor", 
-        heroId: ,
+        heroId: 30,
         img: ""
-    }
+    },
     {
         name: "Wraith King", 
-        heroId: ,
+        heroId: 42,
         img: ""
-    }
+    },
     {
         name: "Zeus", 
-        heroId: ,
+        heroId: 22,
         img: ""
     }
-
 ]
