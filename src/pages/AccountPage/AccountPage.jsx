@@ -159,11 +159,8 @@ const AccountPage = ({friendsList}) => {
     }, [recentlySeenFriends]);
 
     useEffect(() => {
-
         const mostPlayedHeroObj = heroes.filter((hero) => hero.heroId == mostPlayedHeroId)
-        console.log("dis", mostPlayedHeroObj[0])
         setMostPlayedHero(mostPlayedHeroObj[0])
-
     }, [mostPlayedHeroId]);
 
     return ( 

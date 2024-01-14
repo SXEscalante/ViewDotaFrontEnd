@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import heroes from "../../data/DotaHeroes"
 
 import "./MatchRow.css"
 
@@ -20,6 +21,7 @@ const MatchRow = ({matchId, friendsList}) => {
     const [duration, setDuration] = useState(0);
     const [friends, setFriends] = useState();
     const [friendsInMatch, setFriendsInMatch] = useState([]);
+    const [playedHero, setPlayedHero] = useState({});
 
     const [user] = useAuth();
 
@@ -87,11 +89,17 @@ const MatchRow = ({matchId, friendsList}) => {
         console.log(friendsInMatch)
     }, [friendsInMatch]);
 
+    useEffect(() => {
+        const playedHeroObj = heroes.filter((hero) => hero.heroId == heroId)
+        setPlayedHero(playedHeroObj[0])
+    }, [heroId]);
+
     return ( 
             <tr onClick={() => navigate(`/match/${matchId}`)}>
                 <div className="result">
+                    {playedHero &&
+                        <img src={playedHero.img} alt="" />}
                     <td className={result ? "win" : "loss"}>{result ? "Win" : "Loss"}</td>
-                        <p>{heroId}</p>
                 </div>
                 <td>{`${kills}/${deaths}/${assists}`}</td>
                 <td>{Math.round((kda * 10)) / 10}</td>

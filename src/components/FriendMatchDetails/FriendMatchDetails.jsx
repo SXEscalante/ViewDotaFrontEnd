@@ -1,11 +1,20 @@
 import "./FriendMatchDetails.css"
 
+import heroes from "../../data/DotaHeroes";
+import { useEffect, useState } from "react";
+
 const FriendMatchDetails = ({details}) => {
-    console.log(details)
+    const [playedHero, setPlayedHero] = useState({});
+
+    useEffect(() => {
+        const playedHeroObj = heroes.filter((hero) => hero.heroId == details.friendsMatchDetails.hero_id)
+        setPlayedHero(playedHeroObj[0])    
+    }, []);
+
     return ( 
         <div className="friends-match-details">
-            <div>
-                <h3>{details.personaName}</h3>
+            <div className="friends-details">
+                <h3 className="friends-name">{details.personaName}</h3>
                 <div className="data">
                     <p>Damage: </p>
                     <p>{details.friendsMatchDetails.hero_damage}</p>
@@ -20,13 +29,14 @@ const FriendMatchDetails = ({details}) => {
                 </div>
             </div>
             <div className="friend-hero-sidebar">
-                <div className="hero-info">
-                    <img src="" alt="" />
+                    {playedHero &&
+                        <img src={playedHero.img} alt="" className="friends-hero"/>}
+                <div className="friend-hero-info">
                     <p>{`Kills: ${details.friendsMatchDetails.kills}`}</p>
                     <p>{`Deaths: ${details.friendsMatchDetails.deaths}`}</p>
                     <p>{`Assists: ${details.friendsMatchDetails.assists}`}</p>
                 </div>
-                <div className="items">
+                <div className="friends-items">
                     
                 </div>
             </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
 import heroes from "../../data/DotaHeroes"
 
+
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
@@ -111,7 +112,7 @@ const FriendsAccountPage = ({}) => {
 
     useEffect(() => {
         handleAccountInfo()
-        
+
     }, []);
 
     useEffect(() => {
@@ -135,7 +136,6 @@ const FriendsAccountPage = ({}) => {
     useEffect(() => {
 
         const mostPlayedHeroObj = heroes.filter((hero) => hero.heroId == mostPlayedHeroId)
-        console.log("dis", mostPlayedHeroObj[0])
         setMostPlayedHero(mostPlayedHeroObj[0])
 
     }, [mostPlayedHeroId]);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import heroes from "../../data/DotaHeroes";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
@@ -11,6 +12,7 @@ const MatchDetailsPage = ({friendsList}) => {
     const [matchInfo, setMatchInfo] = useState();
     const [result, setResult] = useState(0);
     const [heroId, setHeroId] = useState(0);
+    const [items, setItems] = useState([]);
     const [kills, setKills] = useState(0);
     const [deaths, setDeaths] = useState(0);
     const [assists, setAssists] = useState(0);
@@ -19,6 +21,7 @@ const MatchDetailsPage = ({friendsList}) => {
     const [netWorth, setNetWorth] = useState(0);
     const [duration, setDuration] = useState(0);
     const [friendsInMatch, setFriendsInMatch] = useState([]);
+    const [playedHero, setPlayedHero] = useState({});
     
     const { matchId } = useParams();
     
@@ -75,6 +78,11 @@ const MatchDetailsPage = ({friendsList}) => {
         }
     }, [matchInfo]);
 
+    useEffect(() => {
+        const playedHeroObj = heroes.filter((hero) => hero.heroId == heroId)
+        setPlayedHero(playedHeroObj[0])
+    }, [heroId]);
+
     return ( 
         <div className="match-page">
             <div className="match-data">
@@ -100,14 +108,14 @@ const MatchDetailsPage = ({friendsList}) => {
                 </div>
                 <div className="match-sidebar">
                     <div className="hero-info">
-                        <img src="" alt="" />
-                        <p>{heroId}</p>
+                        {playedHero &&
+                            <img src={playedHero.img} alt="" className="hero-image"/>}
                         <p>Kills: {kills}</p>
                         <p>Deaths: {deaths}</p>
                         <p>Assists: {assists}</p>
                     </div>
                     <div className="items">
-
+                        <p></p>
                     </div>
                 </div>
             </div>

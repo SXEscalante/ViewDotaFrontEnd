@@ -7,10 +7,10 @@
 .result{
     display: flex;
     flex-direction: row;
-    gap: 20px;
 }
 td{
-    padding-left: 70px;
+    position: relative;
+    align-items: center;
 }
 tr:hover{
     background-color: rgb(41, 39, 40);
