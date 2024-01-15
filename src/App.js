@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "./hooks/useAuth";
 import "./App.css";
+import { FriendsListProvider } from "./context/FriendsListContext";
 
 // Pages Imports
 import HomePage from "./pages/HomePage/HomePage";
@@ -24,6 +25,7 @@ import FriendsAccountPage from "./pages/FriendsAccountPage/FriendsAccountPage";
 function App() {
   const [friendsList, setFriendsList] = useState([]);
   const [friendsIdList, setFriendsIdList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [user] = useAuth();
   var bigInt = require('big-integer')
 
@@ -51,6 +53,7 @@ function App() {
   }, []);
   
   useEffect(() => {
+    setLoading(false)
     console.log(friendsIdList)
   }, [friendsIdList]);
 
@@ -61,23 +64,29 @@ function App() {
     return {accountId, personaName}
   } 
 
+  if (loading){
+    return <div></div>
+  }
+  
   return (
-    <div className="viewdota">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/friendsAccount/:friendId" element={<FriendsAccountPage />}/>
-        {friendsIdList.length > 0 && (
-          <>
-            <Route path="/account" element={<AccountPage friendsList={friendsIdList}/>} />
-            <Route path="/matches" element={<MatchHistoryPage friendsList={friendsIdList}/>} />
-            <Route path="/match/:matchId" element={<MatchDetailsPage friendsList={friendsIdList}/> } />
-          </>
-        )}
-      </Routes>
-    </div>
+    <FriendsListProvider initialFriendsList={friendsIdList}>
+      <div className="viewdota">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<HomePage/>} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/friendsAccount/:friendId" element={<FriendsAccountPage />}/>
+          {friendsIdList.length > 0 && (
+            <>
+              <Route path="/account" element={<AccountPage friendsList={friendsIdList}/>} />
+              <Route path="/matches" element={<MatchHistoryPage friendsList={friendsIdList}/>} />
+              <Route path="/match/:matchId" element={<MatchDetailsPage friendsList={friendsIdList}/> } />
+            </>
+          )}
+        </Routes>
+      </div>
+    </FriendsListProvider>
   );
 }
 

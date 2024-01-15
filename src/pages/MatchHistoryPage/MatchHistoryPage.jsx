@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { FriendContext } from "../../context/FriendsListContext";
+import { FriendsListContext } from "../../context/FriendsListContext";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
@@ -14,7 +14,7 @@ const MatchHistoryPage = ({friendsList}) => {
     const [matches, setMatches] = useState([]);
 
     const [user] = useAuth();
-    const friendIdList = useContext(FriendContext)
+    const friendIdList = useContext(FriendsListContext)
 
     const handleMatchHistory = async () => {
         try {

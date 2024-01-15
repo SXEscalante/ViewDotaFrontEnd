@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
-import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
-import FriendsListEntry from "../../components/FriendListEntry/FriendsListEntry";
+import { useContext, useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import heroes from "../../data/DotaHeroes"
+import axios from "axios";
+import { FriendsListContext } from "../../context/FriendsListContext";
+
+import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
+import FriendsListEntry from "../../components/FriendListEntry/FriendsListEntry";
+import AccountComment from "../../components/AccountComment/AccountComment";
+
 
 import "./AccountPage.css"
-import axios from "axios";
 
 const AccountPage = ({friendsList}) => {
+
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
     const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
@@ -15,6 +20,8 @@ const AccountPage = ({friendsList}) => {
     const [friends, setFriends] = useState(friendsList);
     const [recentlySeenFriends, setRecentlySeenFriends] = useState([]);
     const [recentFriendsList, setRecentFriendsList] = useState([]);
+    const [commentObjs, setCommentObjs] = useState([]);
+    const [comments, setComments] = useState([]);
 
     const [damage, setDamage] = useState(0);
     const [kills, setKills] = useState(0);
@@ -28,7 +35,9 @@ const AccountPage = ({friendsList}) => {
     const [mostPlayedHeroId, setMostPlayedHeroId] = useState(-1);
     const [mostPlayedHero, setMostPlayedHero] = useState({});
     
-    const [user] = useAuth();
+    const [user, token] = useAuth();
+    const {friendsListContextualized} = useContext(FriendsListContext);
+
 
     const handleAccountInfo = async () => {
         try {
@@ -56,6 +65,21 @@ const AccountPage = ({friendsList}) => {
                 reject();
             }
         })
+    }
+
+    const handleComments = async () => {
+        try{
+            const responce = await axios.get(`https://localhost:5001/api/AccountComments/${user.steamAccountId}`, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            })
+            if(responce.status === 200){
+                setCommentObjs(responce.data)
+            }
+        } catch (error) {
+            console.log("Error getting accounts comments", error)
+        }
     }
 
     const findGamesWithFriends = (players) => {
@@ -128,9 +152,11 @@ const AccountPage = ({friendsList}) => {
 
     useEffect(() => {
         handleAccountInfo()
+        handleComments()
         for(let friend of friends){
             friend["recentGames"] = 0
         }
+        console.log("dis", friendsListContextualized)
     }, []);
 
     useEffect(() => {
@@ -162,54 +188,64 @@ const AccountPage = ({friendsList}) => {
         const mostPlayedHeroObj = heroes.filter((hero) => hero.heroId == mostPlayedHeroId)
         setMostPlayedHero(mostPlayedHeroObj[0])
     }, [mostPlayedHeroId]);
+    
+    useEffect(() => {
+        setComments(commentObjs.map((comment, i) => <AccountComment key={i} comment={comment}/>))
+    }, [commentObjs]);
 
     return ( 
         <div className="account-page">
-            <div>
-                <h1 className="account-name" >{user.userName}</h1>
-                <div className="account-info">
-                    <div className="account-info-header">
-                        <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
-                        <div className="header-box time-selector">
-                            <h3>Time Period:</h3>
-                            <button className={selectedTimeFrame === 1 ? "pressed" : ""} onClick={() => {
-                                setTimePeriod(Math.round(Date.now()/1000) - 86400);
-                                setSelectedTimeFrame(1)
-                            }}>1 Day</button>
-                            <button className={selectedTimeFrame === 2 ? "pressed" : ""} onClick={() => {
-                                setTimePeriod(Math.round(Date.now()/1000) - 604800);
-                                setSelectedTimeFrame(2)
-                            }}>1 Week</button>
-                            <button className={selectedTimeFrame === 3 ? "pressed" : ""} onClick={() => {
-                                setTimePeriod(Math.round(Date.now()/1000) - 2592000)
-                                setSelectedTimeFrame(3)
-                            }}>1 Month</button>
+            <div className="player-stats">  
+                <div>
+                    <h1 className="account-name" >{user.userName}</h1>
+                    <div className="account-info">
+                        <div className="account-info-header">
+                            <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
+                            <div className="header-box time-selector">
+                                <h3>Time Period:</h3>
+                                <button className={selectedTimeFrame === 1 ? "pressed" : ""} onClick={() => {
+                                    setTimePeriod(Math.round(Date.now()/1000) - 86400);
+                                    setSelectedTimeFrame(1)
+                                }}>1 Day</button>
+                                <button className={selectedTimeFrame === 2 ? "pressed" : ""} onClick={() => {
+                                    setTimePeriod(Math.round(Date.now()/1000) - 604800);
+                                    setSelectedTimeFrame(2)
+                                }}>1 Week</button>
+                                <button className={selectedTimeFrame === 3 ? "pressed" : ""} onClick={() => {
+                                    setTimePeriod(Math.round(Date.now()/1000) - 2592000)
+                                    setSelectedTimeFrame(3)
+                                }}>1 Month</button>
+                            </div>
+                        </div>
+                        <div className="account-info-body">
+                            <AccountInfoDisplay label={"Total Damage Done"} value={damage}/>
+                            <AccountInfoDisplay label={"Total Kills"} value={kills}/>
+                            <AccountInfoDisplay label={"Total Tower Damage"} value={towerDamage}/>
+                            <AccountInfoDisplay label={"Total Denies"} value={denies}/>
+                            <AccountInfoDisplay label={"Total Deaths"} value={deaths}/>
+                            <AccountInfoDisplay label={"Total Healing"} value={healing}/>
+                            <AccountInfoDisplay label={"Total Last Hits"} value={lastHits}/>
+                            <AccountInfoDisplay label={"Total Assists"} value={assists}/> 
+                            <AccountInfoDisplay label={"Total Net Worth"} value={netWorth}/>
                         </div>
                     </div>
-                    <div className="account-info-body">
-                        <AccountInfoDisplay label={"Total Damage Done"} value={damage}/>
-                        <AccountInfoDisplay label={"Total Kills"} value={kills}/>
-                        <AccountInfoDisplay label={"Total Tower Damage"} value={towerDamage}/>
-                        <AccountInfoDisplay label={"Total Denies"} value={denies}/>
-                        <AccountInfoDisplay label={"Total Deaths"} value={deaths}/>
-                        <AccountInfoDisplay label={"Total Healing"} value={healing}/>
-                        <AccountInfoDisplay label={"Total Last Hits"} value={lastHits}/>
-                        <AccountInfoDisplay label={"Total Assists"} value={assists}/> 
-                        <AccountInfoDisplay label={"Total Net Worth"} value={netWorth}/>
-                    </div>
+                </div>
+                <div className="hero-box">
+                    {mostPlayedHero &&
+                        <div className="top-hero">
+                        <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
+                        <p className="top-hero-name">{mostPlayedHero.name}</p>
+                        </div>
+                    }
+                </div>
+                <div className="sidebar">
+                    <h2 className="friends-label">Friends</h2>
+                    {recentFriendsList}
                 </div>
             </div>
-            <div className="hero-box">
-                {mostPlayedHero &&
-                    <div className="top-hero">
-                    <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
-                    <p className="top-hero-name">{mostPlayedHero.name}</p>
-                    </div>
-                }
-            </div>
-            <div className="sidebar">
-                <h2 className="friends-label">Friends</h2>
-                {recentFriendsList}
+            <div>
+                <h2>Comments</h2>
+                {comments}
             </div>
         </div>
     );

@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
-import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
-import heroes from "../../data/DotaHeroes"
-
-
 import axios from "axios";
 import { useParams } from "react-router-dom";
+
+import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
+import AccountComment from "../../components/AccountComment/AccountComment";
+
+import heroes from "../../data/DotaHeroes"
+import NewCommentForm from "../../components/NewCommentForm/NewCommentForm";
 
 const FriendsAccountPage = ({}) => {
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
     const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
     const [selectedTimeFrame, setSelectedTimeFrame] = useState(-1);
+    const [commentObjs, setCommentObjs] = useState([]);
+    const [comments, setComments] = useState([]);
+    const [openNewCommentForm, setOpenNewCommentForm] = useState(false);
 
     const [damage, setDamage] = useState(0);
     const [kills, setKills] = useState(0);
@@ -52,6 +57,18 @@ const FriendsAccountPage = ({}) => {
                 reject();
             }
         })
+    }
+    
+    const handleComments = async () => {
+        try{
+            const responce = await axios.get(`https://localhost:5001/api/AccountComments/${friendId}`, {
+            })
+            if(responce.status === 200){
+                setCommentObjs(responce.data)
+            }
+        } catch (error) {
+            console.log("Error getting accounts comments", error)
+        }
     }
 
     const updateAccountInfo = (matchInfo) => {
@@ -112,7 +129,7 @@ const FriendsAccountPage = ({}) => {
 
     useEffect(() => {
         handleAccountInfo()
-
+        handleComments()
     }, []);
 
     useEffect(() => {
@@ -134,55 +151,71 @@ const FriendsAccountPage = ({}) => {
     }, [filteredAccountInfo]);
 
     useEffect(() => {
-
         const mostPlayedHeroObj = heroes.filter((hero) => hero.heroId == mostPlayedHeroId)
         setMostPlayedHero(mostPlayedHeroObj[0])
-
     }, [mostPlayedHeroId]);
+    
+    useEffect(() => {
+        setComments(commentObjs.map((comment, i) => <AccountComment key={i} comment={comment}/>))
+    }, [commentObjs]);
+
+    useEffect(() => {
+        handleComments()
+    }, [openNewCommentForm]);
 
     return ( 
         <div className="account-page">
-            <div>
-                <h1 className="account-name" >{}</h1>
-                <div className="account-info">
-                    <div className="account-info-header">
-                        <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
-                        <div className="header-box time-selector">
-                            <h3>Time Period:</h3>
-                            <button className={selectedTimeFrame === 1 ? "pressed" : ""} onClick={() => {
-                                setTimePeriod(Math.round(Date.now()/1000) - 86400);
-                                setSelectedTimeFrame(1)
-                            }}>1 Day</button>
-                            <button className={selectedTimeFrame === 2 ? "pressed" : ""} onClick={() => {
-                                setTimePeriod(Math.round(Date.now()/1000) - 604800);
-                                setSelectedTimeFrame(2)
-                            }}>1 Week</button>
-                            <button className={selectedTimeFrame === 3 ? "pressed" : ""} onClick={() => {
-                                setTimePeriod(Math.round(Date.now()/1000) - 2592000)
-                                setSelectedTimeFrame(3)
-                            }}>1 Month</button>
+            <div className="player-stats">
+                <div>
+                    <h1 className="account-name" >{}</h1>
+                    <div className="account-info">
+                        <div className="account-info-header">
+                            <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
+                            <div className="header-box time-selector">
+                                <h3>Time Period:</h3>
+                                <button className={selectedTimeFrame === 1 ? "pressed" : ""} onClick={() => {
+                                    setTimePeriod(Math.round(Date.now()/1000) - 86400);
+                                    setSelectedTimeFrame(1)
+                                }}>1 Day</button>
+                                <button className={selectedTimeFrame === 2 ? "pressed" : ""} onClick={() => {
+                                    setTimePeriod(Math.round(Date.now()/1000) - 604800);
+                                    setSelectedTimeFrame(2)
+                                }}>1 Week</button>
+                                <button className={selectedTimeFrame === 3 ? "pressed" : ""} onClick={() => {
+                                    setTimePeriod(Math.round(Date.now()/1000) - 2592000)
+                                    setSelectedTimeFrame(3)
+                                }}>1 Month</button>
+                            </div>
+                        </div>
+                        <div className="account-info-body">
+                            <AccountInfoDisplay label={"Total Damage Done"} value={damage}/>
+                            <AccountInfoDisplay label={"Total Kills"} value={kills}/>
+                            <AccountInfoDisplay label={"Total Tower Damage"} value={towerDamage}/>
+                            <AccountInfoDisplay label={"Total Denies"} value={denies}/>
+                            <AccountInfoDisplay label={"Total Deaths"} value={deaths}/>
+                            <AccountInfoDisplay label={"Total Healing"} value={healing}/>
+                            <AccountInfoDisplay label={"Total Last Hits"} value={lastHits}/>
+                            <AccountInfoDisplay label={"Total Assists"} value={assists}/> 
+                            <AccountInfoDisplay label={"Total Net Worth"} value={netWorth}/>
                         </div>
                     </div>
-                    <div className="account-info-body">
-                        <AccountInfoDisplay label={"Total Damage Done"} value={damage}/>
-                        <AccountInfoDisplay label={"Total Kills"} value={kills}/>
-                        <AccountInfoDisplay label={"Total Tower Damage"} value={towerDamage}/>
-                        <AccountInfoDisplay label={"Total Denies"} value={denies}/>
-                        <AccountInfoDisplay label={"Total Deaths"} value={deaths}/>
-                        <AccountInfoDisplay label={"Total Healing"} value={healing}/>
-                        <AccountInfoDisplay label={"Total Last Hits"} value={lastHits}/>
-                        <AccountInfoDisplay label={"Total Assists"} value={assists}/> 
-                        <AccountInfoDisplay label={"Total Net Worth"} value={netWorth}/>
-                    </div>
+                </div>
+                <div className="hero-box">
+                    {mostPlayedHero &&
+                        <div className="top-hero">
+                        <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
+                        <p className="top-hero-name">{mostPlayedHero.name}</p>
+                        </div>
+                    }
                 </div>
             </div>
-            <div className="hero-box">
-                {mostPlayedHero &&
-                    <div className="top-hero">
-                    <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
-                    <p className="top-hero-name">{mostPlayedHero.name}</p>
-                    </div>
-                }
+            <div>
+                <h2>Comments</h2>
+                {comments}
+                {!openNewCommentForm &&
+                    <button onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
+                {openNewCommentForm &&
+                    <NewCommentForm setOpenNewCommentForm={setOpenNewCommentForm} steamAccountId={friendId}/>}
             </div>
         </div>
     );

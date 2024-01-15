@@ -28,6 +28,8 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(setUserObject(decodedUser));
   const [isServerError, setIsServerError] = useState(false);
   const navigate = useNavigate();
+  var bigInt = require('big-integer')
+  let steamid64ident = bigInt(76561197960265728)
 
   const registerUser = async (registerData) => {
     try {
@@ -37,7 +39,8 @@ export const AuthProvider = ({ children }) => {
         email: registerData.email,
         firstName: registerData.firstName,
         lastName: registerData.lastName,
-        steamAccountId: registerData.steamAccountId
+        steamAccountId: registerData.steamAccountId,
+        steamId: bigInt(registerData.steamAccountId).plus(steamid64ident)
       };
       let response = await axios.post(`${BASE_URL}`, finalData);
       if (response.status === 201) {
@@ -69,7 +72,6 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
       setIsServerError(true);
-      navigate("/register");
     }
   };
 
