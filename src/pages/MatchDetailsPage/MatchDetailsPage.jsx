@@ -6,6 +6,7 @@ import useAuth from "../../hooks/useAuth";
 
 import FriendMatchDetails from "../../components/FriendMatchDetails/FriendMatchDetails";
 import AccountComment from "../../components/AccountComment/AccountComment";
+import NewMatchCommentForm from "../../components/NewMatchCommentForm/NewMatchCommentForm";
 
 import "./MatchDetailsPage.css"
 
@@ -25,6 +26,7 @@ const MatchDetailsPage = ({friendsList}) => {
     const [playedHero, setPlayedHero] = useState({});
     const [commentObjs, setCommentObjs] = useState([]);
     const [comments, setComments] = useState([]);
+    const [openNewCommentForm, setOpenNewCommentForm] = useState(false);
     
     const { matchId } = useParams();
     
@@ -113,6 +115,10 @@ const MatchDetailsPage = ({friendsList}) => {
         setComments(filteredCommentObjs.map((comment, i) => <AccountComment key={i} comment={comment}/>))
     }, [commentObjs]);
 
+    useEffect(() => {
+        handleComments()
+    }, [openNewCommentForm]);
+
     return ( 
         <div className="match-page">
             <div className="match-data">
@@ -154,6 +160,10 @@ const MatchDetailsPage = ({friendsList}) => {
             <div className="match-comments">
                 <h2>Comments</h2>
                 {comments}
+                {!openNewCommentForm &&
+                    <button onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
+                {openNewCommentForm &&
+                    <NewMatchCommentForm setOpenNewCommentForm={setOpenNewCommentForm} matchId={matchId}/>}
             </div>
         </div>
     );
