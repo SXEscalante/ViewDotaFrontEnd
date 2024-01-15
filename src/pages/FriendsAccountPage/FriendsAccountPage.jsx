@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
 import AccountComment from "../../components/AccountComment/AccountComment";
+import NewAccountCommentForm from "../../components/NewAccountCommentForm/NewAccountCommentForm";
 
 import heroes from "../../data/DotaHeroes"
-import NewCommentForm from "../../components/NewCommentForm/NewCommentForm";
 
 const FriendsAccountPage = ({}) => {
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
@@ -215,7 +215,7 @@ const FriendsAccountPage = ({}) => {
                 {!openNewCommentForm &&
                     <button onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
                 {openNewCommentForm &&
-                    <NewCommentForm setOpenNewCommentForm={setOpenNewCommentForm} steamAccountId={friendId}/>}
+                    <NewAccountCommentForm setOpenNewCommentForm={setOpenNewCommentForm} steamAccountId={friendId}/>}
             </div>
         </div>
     );

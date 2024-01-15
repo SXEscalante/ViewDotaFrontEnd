@@ -5,6 +5,7 @@ import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 
 import FriendMatchDetails from "../../components/FriendMatchDetails/FriendMatchDetails";
+import AccountComment from "../../components/AccountComment/AccountComment";
 
 import "./MatchDetailsPage.css"
 
@@ -22,6 +23,8 @@ const MatchDetailsPage = ({friendsList}) => {
     const [duration, setDuration] = useState(0);
     const [friendsInMatch, setFriendsInMatch] = useState([]);
     const [playedHero, setPlayedHero] = useState({});
+    const [commentObjs, setCommentObjs] = useState([]);
+    const [comments, setComments] = useState([]);
     
     const { matchId } = useParams();
     
@@ -35,6 +38,18 @@ const MatchDetailsPage = ({friendsList}) => {
             }
         } catch (error) {
             console.log("Error getting account info", error)
+        }
+    }
+
+    const handleComments = async () => {
+            try{
+                const responce = await axios.get(`https://localhost:5001/api/MatchComments/${matchId}`)
+                if(responce.status === 200){
+                    setCommentObjs(responce.data)
+                    console.log(responce.data)
+                }
+        } catch(error){
+            console.log("Error getting match comments", error)
         }
     }
 
@@ -52,7 +67,7 @@ const MatchDetailsPage = ({friendsList}) => {
             }
         }
         console.log(tempFriendsInMatch)
-        setFriendsInMatch(tempFriendsInMatch.map((friendDetails) => <FriendMatchDetails details={friendDetails}/>))
+        setFriendsInMatch(tempFriendsInMatch.map((friendDetails, i) => <FriendMatchDetails key={i} details={friendDetails}/>))
     }
 
     const updatePlayerInfo = (playerDetails) => {
@@ -70,6 +85,7 @@ const MatchDetailsPage = ({friendsList}) => {
 
     useEffect(() => {
         handleMatchInfo()
+        handleComments()
     }, []);
 
     useEffect(() => {
@@ -83,10 +99,26 @@ const MatchDetailsPage = ({friendsList}) => {
         setPlayedHero(playedHeroObj[0])
     }, [heroId]);
 
+    useEffect(() => {
+        let filteredCommentObjs = [];
+        const userComments = commentObjs.filter((comment) => comment.user.steamAccountId == user.steamAccountId)
+        let friendsComments = []
+        for(let friend of friendsList){
+            let tempFriendsComments = commentObjs.filter((comment) => comment.user.steamAccountId === `${friend.accountId}`)
+            if (tempFriendsComments.length > 0){
+                friendsComments = [...friendsComments, ...tempFriendsComments]
+            }
+        }
+        filteredCommentObjs = [...friendsComments, ...userComments]
+        setComments(filteredCommentObjs.map((comment, i) => <AccountComment key={i} comment={comment}/>))
+    }, [commentObjs]);
+
     return ( 
         <div className="match-page">
             <div className="match-data">
                 <div className="data-container">
+
+
                     <div className="data">
                         <p>Duration: </p>
                         <p>{duration}</p>
@@ -121,7 +153,7 @@ const MatchDetailsPage = ({friendsList}) => {
             </div>
             <div className="match-comments">
                 <h2>Comments</h2>
-                
+                {comments}
             </div>
         </div>
     );

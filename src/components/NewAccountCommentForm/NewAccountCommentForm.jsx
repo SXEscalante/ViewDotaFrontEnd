@@ -2,7 +2,7 @@ import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 
-const NewCommentForm = ({setOpenNewCommentForm, steamAccountId}) => {
+const NewAccountCommentForm = ({setOpenNewCommentForm, steamAccountId}) => {
     const [text, setText] = useState('');
     const [user, token] = useAuth();
 
@@ -39,4 +39,4 @@ const NewCommentForm = ({setOpenNewCommentForm, steamAccountId}) => {
     );
 }
  
-export default NewCommentForm;
+export default NewAccountCommentForm;
