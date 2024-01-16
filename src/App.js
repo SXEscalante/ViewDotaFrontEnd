@@ -33,9 +33,9 @@ function App() {
 
   const handleFriendsList = async () => {
     try {
-      const responce = await axios.get(`https://localhost:5001/api/SteamAPI/friendsList/${user.steamId}`)
-      if(responce.status === 200){
-          setFriendsList(responce.data)
+      const response = await axios.get(`https://localhost:5001/api/SteamAPI/friendsList/${user.steamId}`)
+      if(response.status === 200){
+          setFriendsList(response.data)
       }
     } catch (error) {
         console.log("Error getting account info", error)

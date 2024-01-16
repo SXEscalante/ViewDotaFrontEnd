@@ -41,9 +41,9 @@ const AccountPage = ({friendsList}) => {
 
     const handleAccountInfo = async () => {
         try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
-            if(responce.status === 200){
-                setAccountInfo(responce.data)
+            const response = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
+            if(response.status === 200){
+                setAccountInfo(response.data)
             }
         } catch (error) {
             console.log("Error getting account info", error)
@@ -53,11 +53,11 @@ const AccountPage = ({friendsList}) => {
     const handleMatchInfo = async (matchId) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
-                if(responce.status === 200){
-                    const heroId = responce.data.result.players.filter((player) => player.account_id == user.steamAccountId)[0].hero_id
-                    updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == user.steamAccountId))
-                    findGamesWithFriends(responce.data.result.players)
+                const response = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
+                if(response.status === 200){
+                    const heroId = response.data.result.players.filter((player) => player.account_id == user.steamAccountId)[0].hero_id
+                    updateAccountInfo(response.data.result.players.filter((player) => player.account_id == user.steamAccountId))
+                    findGamesWithFriends(response.data.result.players)
                     resolve(heroId);
                 }
             } catch (error) {
@@ -69,13 +69,13 @@ const AccountPage = ({friendsList}) => {
 
     const handleComments = async () => {
         try{
-            const responce = await axios.get(`https://localhost:5001/api/AccountComments/${user.steamAccountId}`, {
+            const response = await axios.get(`https://localhost:5001/api/AccountComments/${user.steamAccountId}`, {
                 headers: {
                     Authorization: "Bearer " + token
                 }
             })
-            if(responce.status === 200){
-                setCommentObjs(responce.data)
+            if(response.status === 200){
+                setCommentObjs(response.data)
             }
         } catch (error) {
             console.log("Error getting accounts comments", error)

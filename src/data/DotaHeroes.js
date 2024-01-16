@@ -131,7 +131,7 @@ const heroes = [
     },
     {
         name: "Alchemist", 
-        heroId: 50,
+        heroId: 73,
         img: alchemist
     },
     {

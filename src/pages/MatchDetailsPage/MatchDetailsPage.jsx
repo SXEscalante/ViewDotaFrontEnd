@@ -34,9 +34,9 @@ const MatchDetailsPage = ({friendsList}) => {
 
     const handleMatchInfo = async () => {
         try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
-            if(responce.status === 200){
-                setMatchInfo(responce.data.result)
+            const response = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
+            if(response.status === 200){
+                setMatchInfo(response.data.result)
             }
         } catch (error) {
             console.log("Error getting account info", error)
@@ -45,10 +45,10 @@ const MatchDetailsPage = ({friendsList}) => {
 
     const handleComments = async () => {
             try{
-                const responce = await axios.get(`https://localhost:5001/api/MatchComments/${matchId}`)
-                if(responce.status === 200){
-                    setCommentObjs(responce.data)
-                    console.log(responce.data)
+                const response = await axios.get(`https://localhost:5001/api/MatchComments/${matchId}`)
+                if(response.status === 200){
+                    setCommentObjs(response.data)
+                    console.log(response.data)
                 }
         } catch(error){
             console.log("Error getting match comments", error)

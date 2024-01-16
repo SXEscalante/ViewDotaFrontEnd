@@ -9,18 +9,30 @@ import MatchRow from "../../components/MatchRow/MatchRow";
 import "./MatchHistoryPage.css"
 
 const MatchHistoryPage = ({friendsList}) => {
-
-    const [matchHistory, setMatchHistory] = useState();
+    const [sortingId, setSortingId] = useState(-1);
     const [matches, setMatches] = useState([]);
+    const [matchObjs, setMatchObjs] = useState([]);
 
     const [user] = useAuth();
     const friendIdList = useContext(FriendsListContext)
 
     const handleMatchHistory = async () => {
         try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
-            if(responce.status === 200){
-                setMatchHistory(responce.data)
+            const response = await axios.get(`https://localhost:5001/api/SteamAPI/account/${user.steamAccountId}`)
+            if(response.status === 200){
+                const matchObjsData = await Promise.all(response.data.result.matches.map((match) => handleMatchInfo(match.match_id)))
+                setMatchObjs(matchObjsData)
+            }
+        } catch (error) {
+            console.log("Error getting account info", error)
+        }
+    }
+
+    const handleMatchInfo = async (matchId) => {
+        try {
+            const response = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
+            if(response.status === 200){
+                return response.data
             }
         } catch (error) {
             console.log("Error getting account info", error)
@@ -33,17 +45,18 @@ const MatchHistoryPage = ({friendsList}) => {
     }, []);
 
     useEffect(() => {
-        if(matchHistory != null && matchHistory.result.matches != null){
-            setMatches(matchHistory.result.matches.map((match, i) => <MatchRow key={i} matchId={match.match_id} friendsList={friendsList}/>))
+        if(matchObjs != null){
+            setMatches(matchObjs.map((match, i) => <MatchRow key={i} matchObj={match} friendsList={friendsList}/>))
         }
-    }, [matchHistory]);
+        console.log("matchObjs", matchObjs)
+    }, [matchObjs]);
 
     return ( 
         <div className="match-history">
             <table className="match-table">
                 <thead>
                     <tr>
-                        <th>Result</th>
+                        <th>Result<button onClick={() => setSortingId(1)}></button></th>
                         <th>K/D/A</th>
                         <th>KDA</th>
                         <th>Damage</th>

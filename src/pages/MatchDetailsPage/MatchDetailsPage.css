@@ -27,3 +27,7 @@
     object-fit: contain;
     margin: 2rem 0 2rem 0;
 }
+.match-comments{
+    margin: 0 4rem;
+    background-color: rgb(82, 73, 75);
+}

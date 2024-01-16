@@ -15,12 +15,12 @@ const NewAccountCommentForm = ({setOpenNewCommentForm, steamAccountId}) => {
         }
 
         try{
-            const responce = await axios.post('https://localhost:5001/api/AccountComments', comment, {
+            const response = await axios.post('https://localhost:5001/api/AccountComments', comment, {
                 headers: {
                     Authorization: "Bearer " + token
                 }
             })
-            if (responce.status === 201) {
+            if (response.status === 201) {
                 setOpenNewCommentForm(false)
             }
         }catch (error){

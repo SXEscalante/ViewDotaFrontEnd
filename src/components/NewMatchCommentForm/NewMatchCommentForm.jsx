@@ -15,12 +15,12 @@ const NewMatchCommentForm = ({setOpenNewCommentForm, matchId}) => {
         }
 
         try{
-            const responce = await axios.post('https://localhost:5001/api/MatchComments', comment, {
+            const response = await axios.post('https://localhost:5001/api/MatchComments', comment, {
                 headers: {
                     Authorization: "Bearer " + token
                 }
             })
-            if (responce.status === 201) {
+            if (response.status === 201) {
                 setOpenNewCommentForm(false)
             }
         }catch (error){

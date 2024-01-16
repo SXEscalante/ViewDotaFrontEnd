@@ -34,9 +34,9 @@ const FriendsAccountPage = ({}) => {
     const handleAccountInfo = async () => {
         
         try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/account/${friendId}`)
-            if(responce.status === 200){
-                setAccountInfo(responce.data)
+            const response = await axios.get(`https://localhost:5001/api/SteamAPI/account/${friendId}`)
+            if(response.status === 200){
+                setAccountInfo(response.data)
             }
         } catch (error) {
             console.log("Error getting account info", error)
@@ -46,10 +46,10 @@ const FriendsAccountPage = ({}) => {
     const handleMatchInfo = async (matchId) => {
         return new Promise(async (resolve, reject) => {
             try {
-                const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
-                if(responce.status === 200){
-                    const heroId = responce.data.result.players.filter((player) => player.account_id == friendId)[0].hero_id
-                    updateAccountInfo(responce.data.result.players.filter((player) => player.account_id == friendId), heroId)
+                const response = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
+                if(response.status === 200){
+                    const heroId = response.data.result.players.filter((player) => player.account_id == friendId)[0].hero_id
+                    updateAccountInfo(response.data.result.players.filter((player) => player.account_id == friendId), heroId)
                     resolve(heroId);
                 }
             } catch (error) {
@@ -61,10 +61,10 @@ const FriendsAccountPage = ({}) => {
     
     const handleComments = async () => {
         try{
-            const responce = await axios.get(`https://localhost:5001/api/AccountComments/${friendId}`, {
+            const response = await axios.get(`https://localhost:5001/api/AccountComments/${friendId}`, {
             })
-            if(responce.status === 200){
-                setCommentObjs(responce.data)
+            if(response.status === 200){
+                setCommentObjs(response.data)
             }
         } catch (error) {
             console.log("Error getting accounts comments", error)

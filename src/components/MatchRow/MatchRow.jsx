@@ -6,7 +6,7 @@ import heroes from "../../data/DotaHeroes"
 
 import "./MatchRow.css"
 
-const MatchRow = ({matchId, friendsList}) => {
+const MatchRow = ({matchObj, friendsList}) => {
     const [matchInfo, setMatchInfo] = useState();
     
     const [result, setResult] = useState(0);
@@ -26,17 +26,6 @@ const MatchRow = ({matchId, friendsList}) => {
     const [user] = useAuth();
 
     const navigate = useNavigate();
-    
-    const handleMatchInfo = async () => {
-        try {
-            const responce = await axios.get(`https://localhost:5001/api/SteamAPI/match/${matchId}`)
-            if(responce.status === 200){
-                setMatchInfo(responce.data)
-            }
-        } catch (error) {
-            console.log("Error getting account info", error)
-        }
-    }
 
     const filterPlayerInfo = (matchInfo) => {
         updateMatchInfo(matchInfo.result.players.filter((player) => player.account_id == user.steamAccountId))
@@ -60,7 +49,15 @@ const MatchRow = ({matchId, friendsList}) => {
         setDamage(playerDetails[0].hero_damage)
         setHealing(playerDetails[0].hero_healing)
         setNetWorth(playerDetails[0].net_worth)
-        setDuration(matchInfo.result.duration)
+        formatDuration(matchInfo.result.duration)
+    }
+
+    const formatDuration = (duration) => {
+        let fullDuration = duration + 90
+        let minutes = Math.trunc(fullDuration / 60)
+        let seconds = fullDuration % 60
+        let formatedDuration = `${minutes}:${seconds}`
+        setDuration(formatedDuration)
     }
 
     const determineMatchResult = (playerDetails) => {
@@ -76,7 +73,7 @@ const MatchRow = ({matchId, friendsList}) => {
     }
 
     useEffect(() => {
-        handleMatchInfo();
+        setMatchInfo(matchObj)
     }, []);
 
     useEffect(() => {
@@ -86,16 +83,12 @@ const MatchRow = ({matchId, friendsList}) => {
     }, [matchInfo]);
 
     useEffect(() => {
-        console.log(friendsInMatch)
-    }, [friendsInMatch]);
-
-    useEffect(() => {
         const playedHeroObj = heroes.filter((hero) => hero.heroId == heroId)
         setPlayedHero(playedHeroObj[0])
     }, [heroId]);
 
     return ( 
-            <tr onClick={() => navigate(`/match/${matchId}`)}>
+            <tr onClick={() => navigate(`/match/${matchObj.result.match_id}`)}>
                 <div className="result">
                     {playedHero &&
                         <img src={playedHero.img} alt="" />}
