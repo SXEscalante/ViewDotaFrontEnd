@@ -16,7 +16,7 @@ const MatchHistoryPage = ({}) => {
     const [matchWithPlayerObjs, setMatchWithPlayerObjs] = useState([]);
 
     const [user] = useAuth();
-    const [ContextFriendsList] = useFriends();
+    const [friendsList] = useFriends();
 
 
     const handleMatchHistory = async () => {
@@ -158,7 +158,7 @@ const MatchHistoryPage = ({}) => {
     }, [sortingId, matchWithPlayerObjs]);
     
     useEffect(() => {
-        setMatches(sortedMatchObjs.map((match) => <MatchRow key={match.match.result.match_id} matchObj={match.match} friendsList={ContextFriendsList}/>))
+        setMatches(sortedMatchObjs.map((match) => <MatchRow key={match.match.result.match_id} matchObj={match.match} friendsList={friendsList}/>))
     }, [sortedMatchObjs]);
 
     useEffect(() => {
@@ -172,11 +172,11 @@ const MatchHistoryPage = ({}) => {
                     <tr>
                         <th>Result</th>
                         <th>K/D/A</th>
-                        <th>KDA<button onClick={() => kdaDirection()}></button></th>
-                        <th>Damage<button onClick={() => damageDirection()}></button></th>
-                        <th>Healing<button onClick={() => healingDirection()}></button></th>
-                        <th>Net Worth<button onClick={() => netWorthDirection()}></button></th>
-                        <th className="duration">Duration<button onClick={() => durationDirection()}></button></th>
+                        <th>KDA<button className="sort-button" onClick={() => kdaDirection()}></button></th>
+                        <th>Damage<button className="sort-button" onClick={() => damageDirection()}></button></th>
+                        <th>Healing<button className="sort-button" onClick={() => healingDirection()}></button></th>
+                        <th>Net Worth<button className="sort-button" onClick={() => netWorthDirection()}></button></th>
+                        <th className="duration">Duration<button className="sort-button" onClick={() => durationDirection()}></button></th>
                         <th className="friends">Friends</th>
                     </tr>
                 </thead>

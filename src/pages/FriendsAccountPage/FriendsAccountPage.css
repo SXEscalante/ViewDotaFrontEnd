@@ -1,0 +1,9 @@
+.friend-hero-box{
+    margin-right: 12rem;
+    display: flex;
+    justify-content: center;
+    margin-top: 165px;
+    border: 1px solid #a52125;
+    width: 400px;
+    height: 500px;
+}

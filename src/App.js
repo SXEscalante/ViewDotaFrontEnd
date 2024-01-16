@@ -1,9 +1,8 @@
 // General Imports
 import { Routes, Route } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import FriendsListContext from "./context/FriendsListContext";
 import useFriends from "./hooks/useFriends";
-import axios from "axios";
 import useAuth from "./hooks/useAuth";
 import "./App.css";
 
@@ -24,12 +23,11 @@ import PrivateRoute from "./utils/PrivateRoute";
 import FriendsAccountPage from "./pages/FriendsAccountPage/FriendsAccountPage";
 
 function App() {
-  const [user] = useAuth();
-  const [ContextFriendsList] = useFriends();
+  const [friendsList] = useFriends();
   const {handleFriendsListContext} = useContext(FriendsListContext)
 
   useEffect(() => {
-    if(ContextFriendsList.length === 0){
+    if(friendsList.length === 0){
       handleFriendsListContext()
     }
   }, []);
@@ -42,7 +40,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/friendsAccount/:friendId" element={<FriendsAccountPage />}/>
-          {ContextFriendsList.length > 0 && (
+          {friendsList.length > 0 && (
             <>
               <Route path="/account" element={<AccountPage />} />
               <Route path="/matches" element={<MatchHistoryPage />} />

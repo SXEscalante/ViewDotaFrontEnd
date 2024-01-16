@@ -7,7 +7,7 @@ export const FriendsListContext = createContext();
 export default FriendsListContext;
 
 export const FriendsListProvider = ({children}) => {
-    const [ContextFriendsList, setFriendsList] = useState(() => {
+    const [friendsList, setFriendsList] = useState(() => {
         const saved = localStorage.getItem('friendsList');
         return saved ? JSON.parse(saved) : [];
     });
@@ -35,10 +35,10 @@ export const FriendsListProvider = ({children}) => {
     } 
 
     useEffect(() => {
-        localStorage.setItem('friendsList', JSON.stringify(ContextFriendsList));
-    }, [ContextFriendsList]);
+        localStorage.setItem('friendsList', JSON.stringify(friendsList));
+    }, [friendsList]);
 
     return(
-        <FriendsListContext.Provider value={{ContextFriendsList, setFriendsList, handleFriendsListContext}}>{children}</FriendsListContext.Provider>
+        <FriendsListContext.Provider value={{friendsList, setFriendsList, handleFriendsListContext}}>{children}</FriendsListContext.Provider>
     )
 }

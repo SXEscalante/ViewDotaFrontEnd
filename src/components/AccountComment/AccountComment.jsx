@@ -1,5 +1,4 @@
 const AccountComment = ({comment}) => {
-    console.log(comment)
     return ( 
         <div>
             <h3>{comment.user.username}</h3>

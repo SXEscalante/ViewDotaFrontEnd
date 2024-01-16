@@ -10,14 +10,13 @@
 
 html {
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  color: #a52125;
+  font-family: "Trebuchet", sans-serif;
+  color: #ad262b;
 }
 
 p {
   font-size: 20px;
-  font-weight: 1000;
-  font-style: bo;
+  font-weight: 800;
 }
 
 button {
@@ -26,8 +25,8 @@ button {
   border-radius: 7px;
   color: #89191c;
   font-size: 1rem;
-  font-family: inherit;
-  font-weight: 500;
+  font-family: "Trebuchet", sans-serif;
+  font-weight: 600;
   max-width: 100px;
   padding: 0.5rem 0.5rem;
 }
@@ -63,7 +62,8 @@ button:hover {
 }
 
 .viewdota{
-  background-color: rgb(52, 48, 50);
+  background-image: url(/src/images/SlateBackground.png);
+  background-size: cover;
   min-height: 100vh;
-  height: 100%;
+  height: 200%;
 }

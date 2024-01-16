@@ -46,13 +46,13 @@
     background-color: #89191c;
 }
 .friends-label{
-    margin-bottom: 4rem;
+    margin-bottom: 53px;
     height: 48px;
 }
 .hero-box{
     display: flex;
     justify-content: center;
-    margin-top: 176px;
+    margin-top: 165px;
     border: 1px solid #a52125;
     width: 400px;
     height: 500px;
@@ -78,4 +78,18 @@
 .top-hero:hover .top-hero-name{
     display: flex;
     
+}
+.account-page-comments{
+    background-color: rgba(128, 128, 128, 0.274);
+    padding: 2rem;
+    margin:2rem 2rem 0 2rem;
+    display: flex;
+    flex-direction: column;
+    text-shadow: 2px 1px rgb(46, 43, 44);;
+}
+.account-comment-header{
+    padding-bottom: 2rem;
+}
+.bottom-padding{
+    padding-bottom: 4rem;
 }

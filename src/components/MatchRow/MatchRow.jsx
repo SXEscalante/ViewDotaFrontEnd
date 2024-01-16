@@ -33,7 +33,16 @@ const MatchRow = ({matchObj, friendsList}) => {
         for(var friend of friendsList){
             const friendInMatch = (matchInfo.result.players.filter((player) => player.account_id == friend.accountId))
             if(friendInMatch.length > 0){
-                tempFriendsInMatch.push(friend.personaName);
+                
+                if(friend.personaName == "Vehicular Manslaughter") {
+                    tempFriendsInMatch.push("Geecie")
+                }
+                else if (friend.personaName == "yungmeat"){
+                    tempFriendsInMatch.push("Barto")
+                }
+                else{
+                    tempFriendsInMatch.push(friend.personaName);
+                }
             }
         }
         setFriendsInMatch(tempFriendsInMatch.map((friend, i) => <p key={i} className="match-history-friends">{friend}</p>))
@@ -89,11 +98,11 @@ const MatchRow = ({matchObj, friendsList}) => {
 
     return ( 
             <tr onClick={() => navigate(`/match/${matchObj.result.match_id}`)}>
-                <div className="result">
+                <td className={result ? "win" : "loss"}>
                     {playedHero &&
                         <img src={playedHero.img} alt="" />}
-                    <td className={result ? "win" : "loss"}>{result ? "Win" : "Loss"}</td>
-                </div>
+                    {result ? "Win" : "Loss"}
+                </td>
                 <td>{`${kills}/${deaths}/${assists}`}</td>
                 <td>{Math.round((kda * 10)) / 10}</td>
                 <td>{damage}</td>

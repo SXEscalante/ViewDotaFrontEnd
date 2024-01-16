@@ -32,7 +32,7 @@ const MatchDetailsPage = ({}) => {
     const { matchId } = useParams();
     
     const [user] = useAuth();
-    const [ContextFriendsList] = useFriends();
+    const [friendsList] = useFriends();
 
     const handleMatchInfo = async () => {
         try {
@@ -60,7 +60,7 @@ const MatchDetailsPage = ({}) => {
     const filterPlayerInfo = () => {
         updatePlayerInfo(matchInfo.players.filter((player) => player.account_id == user.steamAccountId))
         let tempFriendsInMatch = [];
-        for(var friend of ContextFriendsList){
+        for(var friend of friendsList){
             const friendInMatch = (matchInfo.players.filter((player) => player.account_id == friend.accountId))
             if(friendInMatch.length > 0){
                 let friendDetails = {
@@ -114,7 +114,7 @@ const MatchDetailsPage = ({}) => {
         let filteredCommentObjs = [];
         const userComments = commentObjs.filter((comment) => comment.user.steamAccountId == user.steamAccountId)
         let friendsComments = []
-        for(let friend of ContextFriendsList){
+        for(let friend of friendsList){
             let tempFriendsComments = commentObjs.filter((comment) => comment.user.steamAccountId === `${friend.accountId}`)
             if (tempFriendsComments.length > 0){
                 friendsComments = [...friendsComments, ...tempFriendsComments]

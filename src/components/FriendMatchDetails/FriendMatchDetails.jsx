@@ -5,16 +5,30 @@ import { useEffect, useState } from "react";
 
 const FriendMatchDetails = ({details}) => {
     const [playedHero, setPlayedHero] = useState({});
+    const [username, setUsername] = useState("");
+
+    const filterNames = () => {
+        if(details.personaName == "Vehicular Manslaughter") {
+            setUsername("Geecie")
+        }
+        else if (details.personaName == "yungmeat"){
+            setUsername("Barto")
+        }
+        else{
+            setUsername(details.personaName);
+        }
+    }
 
     useEffect(() => {
         const playedHeroObj = heroes.filter((hero) => hero.heroId == details.friendsMatchDetails.hero_id)
         setPlayedHero(playedHeroObj[0])    
+        filterNames()
     }, []);
 
     return ( 
         <div className="friends-match-details">
             <div className="friends-details">
-                <h3 className="friends-name">{details.personaName}</h3>
+                <h2 className="friends-name">{username}</h2>
                 <div className="data">
                     <p>Damage: </p>
                     <p>{details.friendsMatchDetails.hero_damage}</p>

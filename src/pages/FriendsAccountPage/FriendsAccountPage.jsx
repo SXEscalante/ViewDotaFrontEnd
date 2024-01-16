@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import useFriends from "../../hooks/useFriends";
 
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
 import AccountComment from "../../components/AccountComment/AccountComment";
 import NewAccountCommentForm from "../../components/NewAccountCommentForm/NewAccountCommentForm";
+
+import "./FriendsAccountPage.css"
 
 import heroes from "../../data/DotaHeroes"
 
@@ -17,6 +20,7 @@ const FriendsAccountPage = ({}) => {
     const [comments, setComments] = useState([]);
     const [openNewCommentForm, setOpenNewCommentForm] = useState(false);
 
+    const [username, setUsername] = useState("");
     const [damage, setDamage] = useState(0);
     const [kills, setKills] = useState(0);
     const [towerDamage, setTowerDamage] = useState(0);
@@ -28,6 +32,8 @@ const FriendsAccountPage = ({}) => {
     const [netWorth, setNetWorth] = useState(0);
     const [mostPlayedHeroId, setMostPlayedHeroId] = useState(-1);
     const [mostPlayedHero, setMostPlayedHero] = useState({});
+
+    const [friendsList] = useFriends();
 
     const { friendId } = useParams();
 
@@ -123,14 +129,31 @@ const FriendsAccountPage = ({}) => {
                 maxCount = matchCount[hero]
             }
         }
-        console.log("hero", topPlayedHero)
         setMostPlayedHeroId(topPlayedHero)
+    }
+
+    const getFriendsName = () => {
+        const friendObj = friendsList.filter((friend) => `${friend.accountId}` == friendId)
+        if(friendObj[0].personaName == "Vehicular Manslaughter") {
+            setUsername("Geecie")
+        }
+        else if(friendObj[0].personaName == "yungmeat"){
+            setUsername("Barto")
+        }
+        else{
+            setUsername(friendObj[0].personaName)
+        }
     }
 
     useEffect(() => {
         handleAccountInfo()
         handleComments()
+        getFriendsName()
     }, []);
+
+    useEffect(() => {
+        console.log("username", username)
+    }, [username]);
 
     useEffect(() => {
         if(accountInfo != null && accountInfo.result != null && accountInfo.result.matches != null){
@@ -167,7 +190,7 @@ const FriendsAccountPage = ({}) => {
         <div className="account-page">
             <div className="player-stats">
                 <div>
-                    <h1 className="account-name" >{}</h1>
+                    <h1 className="account-name" >{username}</h1>
                     <div className="account-info">
                         <div className="account-info-header">
                             <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
@@ -200,7 +223,7 @@ const FriendsAccountPage = ({}) => {
                         </div>
                     </div>
                 </div>
-                <div className="hero-box">
+                <div className="friend-hero-box">
                     {mostPlayedHero &&
                         <div className="top-hero">
                         <img className="top-hero-img" src={mostPlayedHero.img} alt="" />
@@ -209,13 +232,15 @@ const FriendsAccountPage = ({}) => {
                     }
                 </div>
             </div>
-            <div>
-                <h2>Comments</h2>
-                {comments}
-                {!openNewCommentForm &&
-                    <button onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
-                {openNewCommentForm &&
-                    <NewAccountCommentForm setOpenNewCommentForm={setOpenNewCommentForm} steamAccountId={friendId}/>}
+            <div className="bottom-padding">
+                <div className="account-page-comments">
+                    <h2 className="account-comment-header">Comments</h2>
+                    {comments}
+                    {!openNewCommentForm &&
+                        <button onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
+                    {openNewCommentForm &&
+                        <NewAccountCommentForm setOpenNewCommentForm={setOpenNewCommentForm} steamAccountId={friendId}/>}
+                </div>
             </div>
         </div>
     );
