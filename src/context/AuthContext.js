@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }) => {
         let loggedInUser = jwtDecode(response.data.access);
         setUser(setUserObject(loggedInUser));
         setIsServerError(false);
+        
         navigate("/");
       } else {
         navigate("/register");
@@ -78,6 +79,7 @@ export const AuthProvider = ({ children }) => {
   const logoutUser = () => {
     if (user) {
       localStorage.removeItem("token");
+      localStorage.removeItem("friendsList");
       setUser(null);
       setToken(null);
       navigate("/");

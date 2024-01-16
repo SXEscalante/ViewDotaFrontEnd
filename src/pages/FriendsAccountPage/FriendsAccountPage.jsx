@@ -203,7 +203,7 @@ const FriendsAccountPage = ({}) => {
                 <div className="hero-box">
                     {mostPlayedHero &&
                         <div className="top-hero">
-                        <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
+                        <img className="top-hero-img" src={mostPlayedHero.img} alt="" />
                         <p className="top-hero-name">{mostPlayedHero.name}</p>
                         </div>
                     }

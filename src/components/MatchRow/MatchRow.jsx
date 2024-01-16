@@ -36,7 +36,7 @@ const MatchRow = ({matchObj, friendsList}) => {
                 tempFriendsInMatch.push(friend.personaName);
             }
         }
-        setFriendsInMatch(tempFriendsInMatch.map((friend) => <p className="match-history-friends">{friend}</p>))
+        setFriendsInMatch(tempFriendsInMatch.map((friend, i) => <p key={i} className="match-history-friends">{friend}</p>))
     }
 
     const updateMatchInfo = (playerDetails) => {

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import heroes from "../../data/DotaHeroes";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import useFriends from "../../hooks/useFriends";
 
 import FriendMatchDetails from "../../components/FriendMatchDetails/FriendMatchDetails";
 import AccountComment from "../../components/AccountComment/AccountComment";
@@ -10,7 +11,7 @@ import NewMatchCommentForm from "../../components/NewMatchCommentForm/NewMatchCo
 
 import "./MatchDetailsPage.css"
 
-const MatchDetailsPage = ({friendsList}) => {
+const MatchDetailsPage = ({}) => {
     const [matchInfo, setMatchInfo] = useState();
     const [result, setResult] = useState(0);
     const [heroId, setHeroId] = useState(0);
@@ -31,6 +32,7 @@ const MatchDetailsPage = ({friendsList}) => {
     const { matchId } = useParams();
     
     const [user] = useAuth();
+    const [ContextFriendsList] = useFriends();
 
     const handleMatchInfo = async () => {
         try {
@@ -58,7 +60,7 @@ const MatchDetailsPage = ({friendsList}) => {
     const filterPlayerInfo = () => {
         updatePlayerInfo(matchInfo.players.filter((player) => player.account_id == user.steamAccountId))
         let tempFriendsInMatch = [];
-        for(var friend of friendsList){
+        for(var friend of ContextFriendsList){
             const friendInMatch = (matchInfo.players.filter((player) => player.account_id == friend.accountId))
             if(friendInMatch.length > 0){
                 let friendDetails = {
@@ -81,8 +83,15 @@ const MatchDetailsPage = ({friendsList}) => {
         setDamage(playerDetails[0].hero_damage)
         setHealing(playerDetails[0].hero_healing)
         setNetWorth(playerDetails[0].net_worth)
-        setDuration(matchInfo.duration)
+        formatDuration(matchInfo.duration)
+    }
 
+    const formatDuration = (duration) => {
+        let fullDuration = duration + 90
+        let minutes = Math.trunc(fullDuration / 60)
+        let seconds = fullDuration % 60
+        let formatedDuration = `${minutes}:${seconds}`
+        setDuration(formatedDuration)
     }
 
     useEffect(() => {
@@ -105,7 +114,7 @@ const MatchDetailsPage = ({friendsList}) => {
         let filteredCommentObjs = [];
         const userComments = commentObjs.filter((comment) => comment.user.steamAccountId == user.steamAccountId)
         let friendsComments = []
-        for(let friend of friendsList){
+        for(let friend of ContextFriendsList){
             let tempFriendsComments = commentObjs.filter((comment) => comment.user.steamAccountId === `${friend.accountId}`)
             if (tempFriendsComments.length > 0){
                 friendsComments = [...friendsComments, ...tempFriendsComments]

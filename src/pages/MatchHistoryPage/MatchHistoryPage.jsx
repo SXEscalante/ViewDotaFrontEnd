@@ -1,20 +1,23 @@
-import { useContext, useEffect, useState } from "react";
-import { FriendsListContext } from "../../context/FriendsListContext";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import useFriends from "../../hooks/useFriends";
 
 
 import MatchRow from "../../components/MatchRow/MatchRow";
 
 import "./MatchHistoryPage.css"
 
-const MatchHistoryPage = ({friendsList}) => {
-    const [sortingId, setSortingId] = useState(-1);
+const MatchHistoryPage = ({}) => {
+    const [sortingId, setSortingId] = useState(0);
     const [matches, setMatches] = useState([]);
     const [matchObjs, setMatchObjs] = useState([]);
+    const [sortedMatchObjs, setSortedMatchObjs] = useState([]);
+    const [matchWithPlayerObjs, setMatchWithPlayerObjs] = useState([]);
 
     const [user] = useAuth();
-    const friendIdList = useContext(FriendsListContext)
+    const [ContextFriendsList] = useFriends();
+
 
     const handleMatchHistory = async () => {
         try {
@@ -38,37 +41,147 @@ const MatchHistoryPage = ({friendsList}) => {
             console.log("Error getting account info", error)
         }
     }
+
+    const filterPlayerInfo = (matchInfo) => {
+        let playerInfo = {}
+        if(matchInfo.result != null || matchInfo != null){
+            playerInfo = matchInfo.result?.players?.filter((player) => player.account_id == user.steamAccountId)
+        }
+        
+
+        const matchWithPlayerObj = {
+            match: matchInfo,
+            player: playerInfo
+        }
+
+        return matchWithPlayerObj
+    }
+
+    const sortMatches = () => {
+        let sortedMatches = []
+        switch(sortingId) {
+            case 0:
+                sortedMatches =([...matchWithPlayerObjs])
+                break;
+            case 1:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => b.player[0].hero_healing - a.player[0].hero_healing)
+                break;
+            case 2:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.player[0].hero_healing - b.player[0].hero_healing)
+                break;
+            case 3:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => b.player[0].hero_damage - a.player[0].hero_damage)
+                break;
+            case 4:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.player[0].hero_damage - b.player[0].hero_damage)
+                break;
+            case 5:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => ((b.player[0].kills + b.player[0].assists) / b.player[0].deaths) - ((a.player[0].kills + a.player[0].assists) / a.player[0].deaths))
+                break;
+            case 6:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => ((a.player[0].kills + a.player[0].assists) / a.player[0].deaths) - ((b.player[0].kills + b.player[0].assists) / b.player[0].deaths))
+                break;
+            case 7:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => b.match.result.duration - a.match.result.duration)
+                break;
+            case 8:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.match.result.duration - b.match.result.duration)
+                break;
+            case 9:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => b.player[0].net_worth - a.player[0].net_worth)
+                break;
+            case 10:
+                sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.player[0].net_worth - b.player[0].net_worth)
+                break;
+        
+        }
+            setSortedMatchObjs(sortedMatches)
+    }
+
+    const healingDirection = () => {
+        if(sortingId === 1){
+            setSortingId(2)
+        }
+        else{
+            setSortingId(1)
+        }
+    }
+
+    const damageDirection = () => {
+        if(sortingId === 3){
+            setSortingId(4)
+        }
+        else{
+            setSortingId(3)
+        }
+    }
+
+    const kdaDirection = () => {
+        if(sortingId === 5){
+            setSortingId(6)
+        }
+        else{
+            setSortingId(5)
+        }
+    }
+
+    const durationDirection = () => {
+        if(sortingId === 7){
+            setSortingId(8)
+        }
+        else{
+            setSortingId(7)
+        }
+    }
+
+    const netWorthDirection = () => {
+        if(sortingId === 9){
+            setSortingId(10)
+        }
+        else{
+            setSortingId(9)
+        }
+    }
     
     useEffect(() => {
         handleMatchHistory()
-        console.log("friendslist", friendIdList)
     }, []);
 
     useEffect(() => {
         if(matchObjs != null){
-            setMatches(matchObjs.map((match, i) => <MatchRow key={i} matchObj={match} friendsList={friendsList}/>))
+            setMatchWithPlayerObjs(matchObjs.map((match) => filterPlayerInfo(match)))
         }
-        console.log("matchObjs", matchObjs)
     }, [matchObjs]);
+    
+    useEffect(() => {
+        sortMatches()
+    }, [sortingId, matchWithPlayerObjs]);
+    
+    useEffect(() => {
+        setMatches(sortedMatchObjs.map((match) => <MatchRow key={match.match.result.match_id} matchObj={match.match} friendsList={ContextFriendsList}/>))
+    }, [sortedMatchObjs]);
+
+    useEffect(() => {
+        console.log(sortingId)
+    }, [sortingId]);
 
     return ( 
         <div className="match-history">
             <table className="match-table">
                 <thead>
                     <tr>
-                        <th>Result<button onClick={() => setSortingId(1)}></button></th>
+                        <th>Result</th>
                         <th>K/D/A</th>
-                        <th>KDA</th>
-                        <th>Damage</th>
-                        <th>Healing</th>
-                        <th>Net Worth</th>
-                        <th className="duration">Duration</th>
+                        <th>KDA<button onClick={() => kdaDirection()}></button></th>
+                        <th>Damage<button onClick={() => damageDirection()}></button></th>
+                        <th>Healing<button onClick={() => healingDirection()}></button></th>
+                        <th>Net Worth<button onClick={() => netWorthDirection()}></button></th>
+                        <th className="duration">Duration<button onClick={() => durationDirection()}></button></th>
                         <th className="friends">Friends</th>
                     </tr>
                 </thead>
                 <tbody>{matches}</tbody>
             </table>
-            <a href="/match/10">Details</a>
         </div>
     );
 }

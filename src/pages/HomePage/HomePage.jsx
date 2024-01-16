@@ -1,7 +1,7 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
+import FriendsListContext from "../../context/FriendsListContext";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
 
 import search from "../../images/search.png";
 import improve from "../../images/improve.png";
@@ -10,8 +10,12 @@ import message from "../../images/message.png";
 import "./HomePage.css"
 
 const HomePage = () => {
-  const [user, token] = useAuth();
+  const [user] = useAuth();
+  const {handleFriendsListContext} = useContext(FriendsListContext)
 
+  useEffect(() => {
+    handleFriendsListContext()
+  }, []);
 
   return (
     <div>

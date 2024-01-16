@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import heroes from "../../data/DotaHeroes"
+import useFriends from "../../hooks/useFriends";
+import heroes from "../../data/DotaHeroes";
 import axios from "axios";
-import { FriendsListContext } from "../../context/FriendsListContext";
 
 import AccountInfoDisplay from "../../components/AccountInfoDisplay/AccountInfoDisplay";
 import FriendsListEntry from "../../components/FriendListEntry/FriendsListEntry";
@@ -11,13 +11,15 @@ import AccountComment from "../../components/AccountComment/AccountComment";
 
 import "./AccountPage.css"
 
-const AccountPage = ({friendsList}) => {
+const AccountPage = ({}) => {
+    const [user, token] = useAuth();
+    const [ContextFriendsList] = useFriends();
 
     const [timePeriod, setTimePeriod] = useState(Math.round(Date.now()/1000));
     const [accountInfo, setAccountInfo] = useState({});
     const [filteredAccountInfo, setFilteredAccountInfo] = useState([]);
     const [selectedTimeFrame, setSelectedTimeFrame] = useState(-1);
-    const [friends, setFriends] = useState(friendsList);
+    const [friends, setFriends] = useState(ContextFriendsList);
     const [recentlySeenFriends, setRecentlySeenFriends] = useState([]);
     const [recentFriendsList, setRecentFriendsList] = useState([]);
     const [commentObjs, setCommentObjs] = useState([]);
@@ -35,9 +37,6 @@ const AccountPage = ({friendsList}) => {
     const [mostPlayedHeroId, setMostPlayedHeroId] = useState(-1);
     const [mostPlayedHero, setMostPlayedHero] = useState({});
     
-    const [user, token] = useAuth();
-    const {friendsListContextualized} = useContext(FriendsListContext);
-
 
     const handleAccountInfo = async () => {
         try {
@@ -156,7 +155,6 @@ const AccountPage = ({friendsList}) => {
         for(let friend of friends){
             friend["recentGames"] = 0
         }
-        console.log("dis", friendsListContextualized)
     }, []);
 
     useEffect(() => {
@@ -233,7 +231,7 @@ const AccountPage = ({friendsList}) => {
                 <div className="hero-box">
                     {mostPlayedHero &&
                         <div className="top-hero">
-                        <img className="top-hero-img" src={mostPlayedHero.img} alt="hoody" />
+                        <img className="top-hero-img" src={mostPlayedHero.img} alt="" />
                         <p className="top-hero-name">{mostPlayedHero.name}</p>
                         </div>
                     }
