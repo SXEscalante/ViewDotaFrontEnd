@@ -4,7 +4,8 @@
     flex-direction: column;
     align-items: center;
     padding: 1rem;
-    border: 1px solid #a52125;
+    border: 2px solid #a52125;
+    border-radius: 3px;
 }
 .friend-container:hover{
     background-color: rgb(61, 58, 59);

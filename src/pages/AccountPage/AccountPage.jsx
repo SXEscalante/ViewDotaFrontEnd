@@ -146,7 +146,6 @@ const AccountPage = ({}) => {
                 maxCount = matchCount[hero]
             }
         }
-        console.log("dis", topPlayedHero)
         const heroObj = {heroId: topPlayedHero, matchCount: maxCount}
         setMostPlayedHeroObj(heroObj)
     }
@@ -202,7 +201,7 @@ const AccountPage = ({}) => {
                         <div className="account-info-header">
                             <h3 className="header-box">Games: {filteredAccountInfo.length}</h3>
                             <div className="header-box time-selector">
-                                <h3>Time Period:</h3>
+                                <h3 className="time-period">Time Period:</h3>
                                 <button className={selectedTimeFrame === 1 ? "pressed" : ""} onClick={() => {
                                     setTimePeriod(Math.round(Date.now()/1000) - 86400);
                                     setSelectedTimeFrame(1)
@@ -231,6 +230,7 @@ const AccountPage = ({}) => {
                     </div>
                 </div>
                 <div className="hero-box">
+                    <h2>Top Hero</h2>
                     {mostPlayedHero &&
                         <div className="top-hero">
                             <img className="top-hero-img" src={mostPlayedHero.img} alt="" />

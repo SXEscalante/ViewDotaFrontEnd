@@ -30,7 +30,7 @@ const FriendsAccountPage = ({}) => {
     const [lastHits, setLastHits] = useState(0);
     const [assists, setAssists] = useState(0);
     const [netWorth, setNetWorth] = useState(0);
-    const [mostPlayedHeroId, setMostPlayedHeroId] = useState(-1);
+    const [mostPlayedHeroObj, setMostPlayedHeroObj] = useState({});
     const [mostPlayedHero, setMostPlayedHero] = useState({});
 
     const [friendsList] = useFriends();
@@ -129,7 +129,8 @@ const FriendsAccountPage = ({}) => {
                 maxCount = matchCount[hero]
             }
         }
-        setMostPlayedHeroId(topPlayedHero)
+        const heroObj = {heroId: topPlayedHero, matchCount: maxCount}
+        setMostPlayedHeroObj(heroObj)
     }
 
     const getFriendsName = () => {
@@ -174,9 +175,9 @@ const FriendsAccountPage = ({}) => {
     }, [filteredAccountInfo]);
 
     useEffect(() => {
-        const mostPlayedHeroObj = heroes.filter((hero) => hero.heroId == mostPlayedHeroId)
-        setMostPlayedHero(mostPlayedHeroObj[0])
-    }, [mostPlayedHeroId]);
+        const mostPlayedHeroData = heroes.filter((hero) => hero.heroId == mostPlayedHeroObj.heroId)
+        setMostPlayedHero(mostPlayedHeroData[0])
+    }, [mostPlayedHeroObj]);
     
     useEffect(() => {
         setComments(commentObjs.map((comment, i) => <AccountComment key={i} comment={comment}/>))
@@ -224,10 +225,12 @@ const FriendsAccountPage = ({}) => {
                     </div>
                 </div>
                 <div className="friend-hero-box">
+                    <h2>Top Hero</h2>
                     {mostPlayedHero &&
                         <div className="top-hero">
                         <img className="top-hero-img" src={mostPlayedHero.img} alt="" />
                         <p className="top-hero-name">{mostPlayedHero.name}</p>
+                        <p>Games: {mostPlayedHeroObj.matchCount}</p>
                         </div>
                     }
                 </div>

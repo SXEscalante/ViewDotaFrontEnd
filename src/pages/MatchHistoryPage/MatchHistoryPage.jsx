@@ -50,7 +50,7 @@ const MatchHistoryPage = ({}) => {
     const filterPlayerInfo = (matchInfo) => {
         let playerInfo = {}
         console.log(matchInfo)
-        if(matchInfo.result != null || matchInfo != null){
+        if(matchInfo.result != null || matchInfo != null || matchInfo.result.players != 0 || matchInfo.result.players != null){
             playerInfo = matchInfo.result?.players?.filter((player) => player.account_id == user.steamAccountId)
         }
         
@@ -64,6 +64,11 @@ const MatchHistoryPage = ({}) => {
     }
 
     const sortMatches = () => {
+        setDamageUpArrow(false)
+        setDurationUpArrow(false)
+        setHealingUpArrow(false)
+        setKdaUpArrow(false)
+        setNetWorthUpArrow(false)
 
         let sortedMatches = []
         switch(sortingId) {
@@ -75,30 +80,35 @@ const MatchHistoryPage = ({}) => {
                 break;
             case 2:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.player[0].hero_healing - b.player[0].hero_healing)
+                setHealingUpArrow(true)
                 break;
             case 3:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => b.player[0].hero_damage - a.player[0].hero_damage)
                 break;
             case 4:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.player[0].hero_damage - b.player[0].hero_damage)
+                setDamageUpArrow(true)
                 break;
             case 5:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => ((b.player[0].kills + b.player[0].assists) / b.player[0].deaths) - ((a.player[0].kills + a.player[0].assists) / a.player[0].deaths))
                 break;
             case 6:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => ((a.player[0].kills + a.player[0].assists) / a.player[0].deaths) - ((b.player[0].kills + b.player[0].assists) / b.player[0].deaths))
+                setKdaUpArrow(true)
                 break;
             case 7:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => b.match.result.duration - a.match.result.duration)
                 break;
             case 8:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.match.result.duration - b.match.result.duration)
+                setDurationUpArrow(true)
                 break;
             case 9:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => b.player[0].net_worth - a.player[0].net_worth)
                 break;
             case 10:
                 sortedMatches = [...matchWithPlayerObjs].sort((a, b) => a.player[0].net_worth - b.player[0].net_worth)
+                setNetWorthUpArrow(true)
                 break;
         
         }
@@ -180,11 +190,11 @@ const MatchHistoryPage = ({}) => {
                     <tr className="table-head">
                         <th>Result</th>
                         <th>K/D/A</th>
-                        <th>KDA<button className="sort-button" onClick={() => kdaDirection()}></button></th>
-                        <th>Damage<button className="sort-button" onClick={() => damageDirection()}></button></th>
-                        <th>Healing<button className="sort-button" onClick={() => healingDirection()}></button></th>
-                        <th>Net Worth<button className="sort-button" onClick={() => netWorthDirection()}></button></th>
-                        <th className="duration">Duration<button className="sort-button" onClick={() => durationDirection()}></button></th>
+                        <th>KDA<button className={`sort-button ${kdaUpArrow ? "up" : "down"}`} onClick={() => kdaDirection()}></button></th>
+                        <th>Damage<button className={`sort-button ${damageUpArrow ? "up" : "down"}`} onClick={() => damageDirection()}></button></th>
+                        <th>Healing<button className={`sort-button ${healingUpArrow ? "up" : "down"}`} onClick={() => healingDirection()}></button></th>
+                        <th>Net Worth<button className={`sort-button ${netWorthUpArrow ? "up" : "down"}`} onClick={() => netWorthDirection()}></button></th>
+                        <th className="duration">Duration<button className={`sort-button ${durationUpArrow ? "up" : "down"}`} onClick={() => durationDirection()}></button></th>
                         <th className="friends">Friends</th>
                     </tr>
                 </thead>

@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: column;
     width: 60vw;
+    gap: 10px;
 }
 .data{
     display: flex;
@@ -15,6 +16,7 @@
 .match-sidebar{
     border: 1px solid #a52125;
     padding: 2rem;
+    height: 48vh;
 }
 .hero-info{
     display: flex;
@@ -34,4 +36,22 @@
     display: flex;
     flex-direction: column;
     text-shadow: 2px 1px rgb(46, 43, 44);;
+}
+.match-result{
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 2rem;
+}
+.duration{
+    margin-bottom: 2rem;
+}
+.match-win{
+    background-image: linear-gradient(0.5turn, #effff0, #09bb12);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.match-loss{
+    background-image: linear-gradient(0.5turn, #c7352a, #380404);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

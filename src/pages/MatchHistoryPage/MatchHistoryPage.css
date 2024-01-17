@@ -20,9 +20,14 @@ th{
     border: none;
     margin-left: 4px;
     padding-bottom: 4px;
-    background-image: url(/src//images/down-arrow.png);
     background-repeat: no-repeat;
     background-size: contain;
+}
+.down{
+    background-image: url(/src//images/down-arrow.png);
+}
+.up{
+    background-image: url(/src//images/up-arrow.png);
 }
 .sort-button:hover{
     background-color: transparent;

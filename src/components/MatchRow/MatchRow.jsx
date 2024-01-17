@@ -100,7 +100,7 @@ const MatchRow = ({matchObj, friendsList}) => {
             <tr className={result ? "row-win" : "row-loss"} onClick={() => navigate(`/match/${matchObj.result.match_id}`)}>
                 <td className={`result ${result ? "win" : "loss"}`}>
                     {playedHero &&
-                        <img src={playedHero.img} alt="" />}
+                        <img className="hero-row-icon" src={playedHero.img} alt="" />}
                     {result ? "Win" : "Loss"}
                 </td>
                 <td>{`${kills}/${deaths}/${assists}`}</td>

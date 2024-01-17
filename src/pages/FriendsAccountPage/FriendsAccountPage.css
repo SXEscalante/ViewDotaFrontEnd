@@ -1,7 +1,10 @@
 .friend-hero-box{
+    padding-top: 2rem;
     margin-right: 12rem;
     display: flex;
-    justify-content: center;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
     margin-top: 165px;
     border: 1px solid #a52125;
     width: 400px;

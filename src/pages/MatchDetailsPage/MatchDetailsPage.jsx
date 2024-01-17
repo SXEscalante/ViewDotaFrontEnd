@@ -84,6 +84,19 @@ const MatchDetailsPage = ({}) => {
         setHealing(playerDetails[0].hero_healing)
         setNetWorth(playerDetails[0].net_worth)
         formatDuration(matchInfo.duration)
+        determineMatchResult(playerDetails)
+    }
+
+    const determineMatchResult = (playerDetails) => {
+        if(playerDetails[0].team_number === 0 && matchInfo.radiant_win === true){
+            setResult(1)
+        }
+        else if(playerDetails[0].team_number === 1 && matchInfo.radiant_win === false) {
+            setResult(1)
+        }
+        else {
+            setResult(0)
+        }
     }
 
     const formatDuration = (duration) => {
@@ -128,16 +141,21 @@ const MatchDetailsPage = ({}) => {
         handleComments()
     }, [openNewCommentForm]);
 
+    useEffect(() => {
+        console.log("result", result)
+    }, [result]);
+
     return ( 
         <div className="match-page">
             <div className="match-data">
                 <div className="data-container">
-
-
-                    <div className="data">
+                    <div className="data duration">
                         <p>Duration: </p>
                         <p>{duration}</p>
                     </div>
+                    
+                    <h1 className={`match-result ${result ? "match-win" : "match-loss"}`}>{result ? "Victory" : "Defeat"}</h1>
+
                     <div className="data">
                         <p>Damage: </p>
                         <p>{damage}</p>

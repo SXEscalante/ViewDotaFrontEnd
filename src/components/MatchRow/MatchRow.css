@@ -42,4 +42,6 @@ tr{
     font-weight: 200;
     font-size: 18px;
 }
-
+.hero-row-icon{
+    margin-right: 4px;
+}

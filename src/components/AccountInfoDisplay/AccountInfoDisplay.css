@@ -1,7 +1,7 @@
 .info-box{
     display: flex;
     flex-direction: column;
-    border: 1px solid #a52125;
+    border: 2px solid #a52125;
     align-items: center;
     justify-content: center;
     height: 21.15vh;
