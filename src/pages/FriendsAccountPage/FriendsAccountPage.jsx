@@ -111,7 +111,6 @@ const FriendsAccountPage = ({}) => {
     }
     
     const findMostPlayedHero = (heroIds) => {
-        console.log("heroIds", heroIds)
         var matchCount = {};
         let topPlayedHero = heroIds[0], maxCount = 0;
         for (let i = 0; i < heroIds.length; i++ ){
@@ -151,11 +150,7 @@ const FriendsAccountPage = ({}) => {
         handleComments()
         getFriendsName()
     }, []);
-
-    useEffect(() => {
-        console.log("username", username)
-    }, [username]);
-
+    
     useEffect(() => {
         if(accountInfo != null && accountInfo.result != null && accountInfo.result.matches != null){
             filterAccountInfo(accountInfo.result.matches)

@@ -50,7 +50,6 @@ const MatchDetailsPage = ({}) => {
                 const response = await axios.get(`https://localhost:5001/api/MatchComments/${matchId}`)
                 if(response.status === 200){
                     setCommentObjs(response.data)
-                    console.log(response.data)
                 }
         } catch(error){
             console.log("Error getting match comments", error)
@@ -70,7 +69,6 @@ const MatchDetailsPage = ({}) => {
                 tempFriendsInMatch.push(friendDetails);
             }
         }
-        console.log(tempFriendsInMatch)
         setFriendsInMatch(tempFriendsInMatch.map((friendDetails, i) => <FriendMatchDetails key={i} details={friendDetails}/>))
     }
 
@@ -140,10 +138,6 @@ const MatchDetailsPage = ({}) => {
     useEffect(() => {
         handleComments()
     }, [openNewCommentForm]);
-
-    useEffect(() => {
-        console.log("result", result)
-    }, [result]);
 
     return ( 
         <div className="match-page">

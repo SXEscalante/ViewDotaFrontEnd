@@ -49,7 +49,6 @@ const MatchHistoryPage = ({}) => {
 
     const filterPlayerInfo = (matchInfo) => {
         let playerInfo = {}
-        console.log(matchInfo)
         if(matchInfo.result != null || matchInfo != null || matchInfo.result.players != 0 || matchInfo.result.players != null){
             playerInfo = matchInfo.result?.players?.filter((player) => player.account_id == user.steamAccountId)
         }
@@ -177,11 +176,6 @@ const MatchHistoryPage = ({}) => {
     useEffect(() => {
         setMatches(sortedMatchObjs.map((match) => <MatchRow key={match.match.result.match_id} matchObj={match.match} friendsList={friendsList}/>))
     }, [sortedMatchObjs]);
-
-    useEffect(() => {
-        console.log(sortingId)
-    }, [sortingId]);
-
 
     return ( 
         <div className="match-history">
