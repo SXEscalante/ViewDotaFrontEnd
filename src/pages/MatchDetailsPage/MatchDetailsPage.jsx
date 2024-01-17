@@ -166,13 +166,15 @@ const MatchDetailsPage = ({}) => {
                     </div>
                 </div>
             </div>
-            <div className="match-comments">
-                <h2>Comments</h2>
-                {comments}
-                {!openNewCommentForm &&
-                    <button onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
-                {openNewCommentForm &&
-                    <NewMatchCommentForm setOpenNewCommentForm={setOpenNewCommentForm} matchId={matchId}/>}
+            <div className="bottom-padding">
+                <div className="match-comments">
+                    <h2 className="comment-header">Comments</h2>
+                    {comments}
+                    {!openNewCommentForm &&
+                        <button className="new-comment-button" onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
+                    {openNewCommentForm &&
+                        <NewMatchCommentForm setOpenNewCommentForm={setOpenNewCommentForm} matchId={matchId}/>}
+                </div>
             </div>
         </div>
     );

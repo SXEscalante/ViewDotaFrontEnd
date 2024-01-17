@@ -234,10 +234,10 @@ const FriendsAccountPage = ({}) => {
             </div>
             <div className="bottom-padding">
                 <div className="account-page-comments">
-                    <h2 className="account-comment-header">Comments</h2>
+                    <h2 className="comment-header">Comments</h2>
                     {comments}
                     {!openNewCommentForm &&
-                        <button onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
+                        <button className="new-comment-button" onClick={() => setOpenNewCommentForm(true)}>Post new comment</button>}
                     {openNewCommentForm &&
                         <NewAccountCommentForm setOpenNewCommentForm={setOpenNewCommentForm} steamAccountId={friendId}/>}
                 </div>

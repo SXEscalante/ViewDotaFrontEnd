@@ -1,7 +1,9 @@
+import "./AccountComment.css"
+
 const AccountComment = ({comment}) => {
     return ( 
-        <div>
-            <h3>{comment.user.username}</h3>
+        <div className="comment">
+            <h2>{comment.user.username}</h2>
             <p>{comment.text}</p>
         </div>
     );

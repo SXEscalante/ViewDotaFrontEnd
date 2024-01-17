@@ -233,9 +233,9 @@ const AccountPage = ({}) => {
                 <div className="hero-box">
                     {mostPlayedHero &&
                         <div className="top-hero">
-                        <img className="top-hero-img" src={mostPlayedHero.img} alt="" />
-                        <p className="top-hero-name">{mostPlayedHero.name}</p>
-                        <p>Games: {mostPlayedHeroObj.matchCount}</p>
+                            <img className="top-hero-img" src={mostPlayedHero.img} alt="" />
+                            <p className="top-hero-name">{mostPlayedHero.name}</p>
+                            <p>Games: {mostPlayedHeroObj.matchCount}</p>
                         </div>
                     }
                 </div>
@@ -246,7 +246,7 @@ const AccountPage = ({}) => {
             </div>
             <div className="bottom-padding">
                 <div className="account-page-comments">
-                    <h2 className="account-comment-header">Comments</h2>
+                    <h2 className="comment-header">Comments</h2>
                     {comments}
                 </div>
             </div>

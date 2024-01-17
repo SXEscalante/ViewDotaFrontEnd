@@ -67,3 +67,11 @@ button:hover {
   min-height: 100vh;
   height: 200%;
 }
+
+input{
+  color: #f6d0d1;
+  background-color: rgb(61, 57, 57);
+}
+input:focus{
+  outline: none;
+}

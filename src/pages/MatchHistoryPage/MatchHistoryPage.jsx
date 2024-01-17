@@ -14,6 +14,11 @@ const MatchHistoryPage = ({}) => {
     const [matchObjs, setMatchObjs] = useState([]);
     const [sortedMatchObjs, setSortedMatchObjs] = useState([]);
     const [matchWithPlayerObjs, setMatchWithPlayerObjs] = useState([]);
+    const [healingUpArrow, setHealingUpArrow] = useState(false);
+    const [damageUpArrow, setDamageUpArrow] = useState(false);
+    const [durationUpArrow, setDurationUpArrow] = useState(false);
+    const [kdaUpArrow, setKdaUpArrow] = useState(false);
+    const [netWorthUpArrow, setNetWorthUpArrow] = useState(false);
 
     const [user] = useAuth();
     const [friendsList] = useFriends();
@@ -44,6 +49,7 @@ const MatchHistoryPage = ({}) => {
 
     const filterPlayerInfo = (matchInfo) => {
         let playerInfo = {}
+        console.log(matchInfo)
         if(matchInfo.result != null || matchInfo != null){
             playerInfo = matchInfo.result?.players?.filter((player) => player.account_id == user.steamAccountId)
         }
@@ -58,6 +64,7 @@ const MatchHistoryPage = ({}) => {
     }
 
     const sortMatches = () => {
+
         let sortedMatches = []
         switch(sortingId) {
             case 0:
@@ -165,11 +172,12 @@ const MatchHistoryPage = ({}) => {
         console.log(sortingId)
     }, [sortingId]);
 
+
     return ( 
         <div className="match-history">
             <table className="match-table">
                 <thead>
-                    <tr>
+                    <tr className="table-head">
                         <th>Result</th>
                         <th>K/D/A</th>
                         <th>KDA<button className="sort-button" onClick={() => kdaDirection()}></button></th>

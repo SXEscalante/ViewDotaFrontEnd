@@ -7,3 +7,11 @@
     width: 400px;
     height: 500px;
 }
+.new-comment-button{
+    background-color: #89191c;
+    color: #f6d0d1;
+}
+.new-comment-button:hover{
+    background-color: #f6d0d1;
+    color: #89191c;
+}

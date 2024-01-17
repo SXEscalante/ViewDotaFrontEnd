@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import axios from "axios";
+import "./NewAccountCommentForm.css"
 
 const NewAccountCommentForm = ({setOpenNewCommentForm, steamAccountId}) => {
     const [text, setText] = useState('');
@@ -30,10 +31,12 @@ const NewAccountCommentForm = ({setOpenNewCommentForm, steamAccountId}) => {
 
     return ( 
         <div>
-            <form onSubmit={handleNewComment}>
-                <input type="text" value={text || ''} onChange={(e) => setText(e.target.value)}/>
-                <button type="submit">Submit</button>
-                <button onClick={() => setOpenNewCommentForm(false)}>x</button>
+            <form className="comment-form" onSubmit={handleNewComment}>
+                <input className="comment-input" type="text" value={text || ''} onChange={(e) => setText(e.target.value)}/>
+                <div className="form-buttons">
+                    <button className="submit-button" type="submit">Submit</button>
+                    <button className="exit-form" onClick={() => setOpenNewCommentForm(false)}>x</button>
+                </div>
             </form>
         </div>
     );
