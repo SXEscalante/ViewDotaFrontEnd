@@ -49,7 +49,7 @@ const MatchHistoryPage = ({}) => {
 
     const filterPlayerInfo = (matchInfo) => {
         let playerInfo = {}
-        if(matchInfo.result != null || matchInfo != null || matchInfo.result.players != 0 || matchInfo.result.players != null){
+        if(matchInfo.result && matchInfo && matchInfo.result.players.length > 0){
             playerInfo = matchInfo.result?.players?.filter((player) => player.account_id == user.steamAccountId)
         }
         
@@ -165,7 +165,11 @@ const MatchHistoryPage = ({}) => {
 
     useEffect(() => {
         if(matchObjs != null){
-            setMatchWithPlayerObjs(matchObjs.map((match) => filterPlayerInfo(match)))
+            setMatchWithPlayerObjs(matchObjs.map((match) => {
+                if(match) {
+                    return filterPlayerInfo(match);
+                }
+            }).filter(Boolean));
         }
     }, [matchObjs]);
     
